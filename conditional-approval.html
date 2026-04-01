@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCRI Conditional Approval — AttackClock</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e1a;--bg2:#111827;--bg3:#1a2236;
+  --text:#e2e8f0;--text-dim:#94a3b8;--text-bright:#f8fafc;
+  --red:#ef4444;--red-glow:#ef444440;
+  --amber:#f59e0b;--amber-glow:#f59e0b40;
+  --green:#22c55e;--green-glow:#22c55e40;
+  --cyan:#06b6d4;--cyan-glow:#06b6d440;
+  --purple:#a855f7;--purple-glow:#a855f740;
+  --blue:#3b82f6;--blue-glow:#3b82f640;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--cyan);text-decoration:none;transition:color .2s}
+a:hover{color:var(--text-bright)}
+
+/* Header */
+.header{text-align:center;padding:2.5rem 1rem 1.5rem;background:linear-gradient(180deg,#0f172a 0%,var(--bg) 100%)}
+.logo-container{display:inline-flex;align-items:center;gap:1rem;margin-bottom:.75rem}
+.logo-text{font-size:2.5rem;font-weight:800;letter-spacing:-.02em;color:var(--text-bright)}
+.logo-text span{color:var(--cyan)}
+.logo-svg{width:48px;height:48px;flex-shrink:0}
+
+/* Sections */
+.section{max-width:1280px;margin:0 auto;padding:3rem 1rem}
+.section-title{font-size:1.6rem;font-weight:700;color:var(--text-bright);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.section-title::before{content:'';width:4px;height:1.4rem;background:var(--cyan);border-radius:2px;display:inline-block}
+.section-subtitle{color:var(--text-dim);margin-bottom:2rem;font-size:.95rem}
+.divider{border:none;border-top:1px solid #1e293b;margin:0}
+
+/* Hero */
+.hero{max-width:900px;margin:0 auto;padding:3rem 1rem 2rem;text-align:center}
+.hero h1{font-size:2.2rem;font-weight:800;color:var(--text-bright);line-height:1.2;margin-bottom:1.25rem}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{font-size:1.05rem;color:var(--text-dim);max-width:720px;margin:0 auto 2rem;line-height:1.7}
+.hero-buttons{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.65rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;transition:all .2s;border:1px solid transparent}
+.btn-primary{background:var(--cyan);color:var(--bg);border-color:var(--cyan)}
+.btn-primary:hover{background:#0891b2;color:var(--bg)}
+.btn-secondary{background:var(--bg3);color:var(--cyan);border-color:var(--cyan)}
+.btn-secondary:hover{background:var(--cyan);color:var(--bg)}
+
+/* Problem cards */
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.problem-card{background:var(--bg2);border:1px solid #1e293b;border-radius:10px;padding:1.25rem;position:relative;overflow:hidden}
+.problem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);border-radius:10px 10px 0 0}
+.problem-card h3{font-size:.95rem;font-weight:600;color:var(--text-bright);margin-bottom:.5rem}
+.problem-card p{font-size:.85rem;color:var(--text-dim);line-height:1.6}
+
+/* Solution cards */
+.solution-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.solution-card{background:var(--bg2);border:1px solid #1e293b;border-radius:10px;padding:1.25rem;position:relative;overflow:hidden;transition:transform .2s}
+.solution-card:hover{transform:translateY(-2px)}
+.solution-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--cyan);border-radius:10px 10px 0 0}
+.solution-card h3{font-size:.95rem;font-weight:600;color:var(--cyan);margin-bottom:.5rem}
+.solution-card p{font-size:.85rem;color:var(--text-dim);line-height:1.6}
+.solution-card .stat{font-size:1.6rem;font-weight:800;color:var(--amber);margin-bottom:.25rem}
+
+/* Timeline steps */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:1rem}
+.step{position:relative;padding:1.5rem;background:var(--bg2);border:1px solid #1e293b}
+.step:first-child{border-radius:10px 0 0 10px}
+.step:last-child{border-radius:0 10px 10px 0}
+.step-number{font-size:2rem;font-weight:800;color:var(--cyan);opacity:.4;margin-bottom:.5rem}
+.step h3{font-size:.9rem;font-weight:600;color:var(--text-bright);margin-bottom:.5rem}
+.step p{font-size:.8rem;color:var(--text-dim);line-height:1.5}
+.step-arrow{display:none}
+
+/* Threshold table */
+.threshold-table{width:100%;border-collapse:collapse;margin-top:1rem}
+.threshold-table th,.threshold-table td{padding:.75rem 1rem;text-align:left;border-bottom:1px solid #1e293b;font-size:.85rem}
+.threshold-table th{color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;font-size:.7rem;font-weight:600}
+.threshold-table td{color:var(--text)}
+.threshold-table tr:hover{background:var(--bg3)}
+.threshold-level{display:inline-block;padding:.2rem .6rem;border-radius:4px;font-weight:700;font-size:.8rem}
+.level-3{background:#06b6d420;color:var(--cyan)}
+.level-2{background:#f59e0b20;color:var(--amber)}
+
+/* Board grid */
+.board-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin-top:1rem}
+.board-member{background:var(--bg2);border:1px solid #1e293b;border-radius:8px;padding:1rem;text-align:center}
+.board-member .name{font-weight:600;color:var(--text-bright);font-size:.9rem}
+.board-member .role{font-size:.75rem;color:var(--text-dim);margin-top:.25rem}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,#0f172a,#1a2236);border:1px solid var(--cyan);border-radius:12px;padding:2.5rem;text-align:center;max-width:800px;margin:0 auto}
+.cta-section h2{font-size:1.4rem;font-weight:700;color:var(--text-bright);margin-bottom:.75rem}
+.cta-section p{color:var(--text-dim);font-size:.95rem;margin-bottom:1.5rem}
+
+/* Footer */
+.footer{text-align:center;padding:2rem 1rem;border-top:1px solid #1e293b;margin-top:3rem;font-size:.8rem;color:#475569}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;margin-top:.75rem}
+.footer-links a{color:#64748b;font-size:.8rem}
+.footer-links a:hover{color:var(--cyan)}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* Responsive */
+@media(max-width:768px){
+  .hero h1{font-size:1.6rem}
+  .logo-text{font-size:1.8rem}
+  .section{padding:2rem .75rem}
+  .steps{grid-template-columns:1fr}
+  .step{border-radius:0!important}
+  .step:first-child{border-radius:10px 10px 0 0!important}
+  .step:last-child{border-radius:0 0 10px 10px!important}
+  .threshold-table{font-size:.75rem}
+  .threshold-table th,.threshold-table td{padding:.5rem .6rem}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="index.html" style="text-decoration:none">
+    <div class="logo-container">
+      <svg class="logo-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="22" stroke="#06b6d4" stroke-width="2" fill="none" opacity="0.3"/>
+        <circle cx="24" cy="24" r="20" stroke="#06b6d4" stroke-width="1.5" fill="none"/>
+        <line x1="24" y1="5" x2="24" y2="8" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/>
+        <line x1="24" y1="40" x2="24" y2="43" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="5" y1="24" x2="8" y2="24" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="40" y1="24" x2="43" y2="24" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+        <polygon points="24,8 21,20 25,19 22,30 28,16 24,17 26,8" fill="#f8fafc" opacity="0.95"/>
+        <line x1="24" y1="24" x2="35" y2="18" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="2.5" fill="#ef4444"/>
+        <path d="M24 2 L38 10 L38 26 Q38 38 24 46 Q10 38 10 26 L10 10 Z" stroke="#06b6d4" stroke-width="1" fill="none" opacity="0.15"/>
+      </svg>
+      <div class="logo-text">Attack<span>Clock</span></div>
+    </div>
+  </a>
+  <div style="margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:.6rem">
+    <img src="vcri-logo.png" alt="VCRI" style="height:28px;opacity:.9">
+    <span style="font-size:.85rem;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;font-weight:600"><a href="https://valuechainrisk.org" style="color:var(--cyan)">Value Chain Risk Institute</a></span>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="hero reveal">
+  <h1>FCC Banned Foreign Routers. <em>VCRI Has the Assessment Framework.</em></h1>
+  <p>On March 23, 2026, the FCC added all foreign-made consumer routers to its Covered List. Manufacturers need Conditional Approval from DoC/DHS. VCRI provides the standardized, independent assessment methodology.</p>
+  <div class="hero-buttons">
+    <a href="mailto:cairn.works@protonmail.com?subject=VCRI%20White%20Paper%20Request%20-%20Conditional%20Approval" class="btn btn-primary">Read the White Paper</a>
+    <a href="mailto:cairn.works@protonmail.com?subject=VCRI%20Conditional%20Approval%20Inquiry" class="btn btn-secondary">Contact VCRI</a>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- The Problem -->
+<section class="section reveal">
+  <h2 class="section-title">The Problem</h2>
+  <p class="section-subtitle">The Conditional Approval process exists, but the assessment criteria do not.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <h3>No Published Criteria</h3>
+      <p>The FCC provides an email address for submissions and a reference to "guidance attached to the determination." No standardized assessment methodology. No independent verification requirement. Manufacturers do not know what "good enough" looks like.</p>
+    </div>
+    <div class="problem-card">
+      <h3>125 Million Foreign Routers</h3>
+      <p>An estimated 125 million consumer routers in US households are manufactured overseas -- primarily Taiwan and China. ASUS, D-Link, Ubiquiti, Synology, TP-Link. No new models can enter the market without Conditional Approval.</p>
+    </div>
+    <div class="problem-card">
+      <h3>The Threat Is Documented</h3>
+      <p>Volt Typhoon maintained access to US critical infrastructure for 5+ years via compromised SOHO routers. Flax Typhoon controlled 260,000 devices. Salt Typhoon penetrated telecom providers. These are not hypotheticals.</p>
+    </div>
+    <div class="problem-card">
+      <h3>Paralysis or Capture</h3>
+      <p>Without clear criteria, DoC/DHS cannot efficiently process applications. The result is either paralysis (nobody gets approved) or capture (approvals go to whoever has the best lobbyists). Neither serves national security.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- The VCRI Solution -->
+<section class="section reveal">
+  <h2 class="section-title">The VCRI Solution</h2>
+  <p class="section-subtitle">A standardized, evidence-based assessment methodology built on established frameworks.</p>
+  <div class="solution-grid">
+    <div class="solution-card">
+      <h3>CyberAssuranceMatrix (CAM)</h3>
+      <p>6 TIPPSS security dimensions, 6 asset categories, 5 CMMI maturity levels. A 180-cell scoring framework that defines what "does not pose unacceptable risks" actually means for a router.</p>
+    </div>
+    <div class="solution-card">
+      <div class="stat">808</div>
+      <h3>Router-Relevant Controls</h3>
+      <p>808 controls identified as relevant to consumer router security. 43 classified as critical. Mapped through the Secure Controls Framework for vendor-agnostic comparison.</p>
+    </div>
+    <div class="solution-card">
+      <h3>Dollar-at-Risk (VCAR)</h3>
+      <p>VCAR quantifies risk in dollar terms: Process Value multiplied by Industry Incident Duration. Gives DoC/DHS a way to prioritize applications by measured risk, not guesswork.</p>
+    </div>
+    <div class="solution-card">
+      <h3>Continuous Monitoring</h3>
+      <p>Not point-in-time certification. VCRI continuously ingests vendor security telemetry. A router that was secure at approval time but degrades later gets flagged automatically.</p>
+    </div>
+    <div class="solution-card">
+      <h3>Independent Nonprofit</h3>
+      <p>VCRI is a 501(c)(3) with no commercial interest in outcomes. The scoring is independent of any vendor relationship. Evidence-based, not self-attestation.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- How It Works -->
+<section class="section reveal">
+  <h2 class="section-title">How It Works</h2>
+  <p class="section-subtitle">Four steps from firmware analysis to Conditional Approval application.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-number">01</div>
+      <h3>Firmware Analysis Generates Evidence</h3>
+      <p>Manufacturer's firmware analysis platform (Finite State, Eclypsium, Binarly, or others) generates SBOMs, VEX documents, and firmware integrity evidence. Manufacturer authorizes VCRI read-only API access.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">02</div>
+      <h3>VCRI Independently Scores Against CAM</h3>
+      <p>CRIBL-based pipeline normalizes all vendor tool data into the TIPPSS schema. SCF control mapping, maturity classification, and sensitivity redaction produce a standardized CAM score.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">03</div>
+      <h3>Gap Analysis with Remediation Roadmap</h3>
+      <p>VCRI identifies which TIPPSS dimensions fall below minimum thresholds and provides a prioritized remediation roadmap. Manufacturers know exactly what to fix and in what order.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">04</div>
+      <h3>Assessment Package for Conditional Approval</h3>
+      <p>Complete VCRI assessment -- CAM scores, VCAR risk quantification, gap analysis, and remediation status -- submitted alongside the manufacturer's Conditional Approval application to DoC/DHS.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Minimum Maturity Thresholds -->
+<section class="section reveal">
+  <h2 class="section-title">Minimum Maturity Thresholds</h2>
+  <p class="section-subtitle">Proposed CMMI maturity levels for Conditional Approval eligibility across TIPPSS dimensions.</p>
+  <div style="overflow-x:auto">
+    <table class="threshold-table">
+      <thead>
+        <tr>
+          <th>TIPPSS Dimension</th>
+          <th>Minimum Level</th>
+          <th>What It Means for Routers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Trust</strong> (Provenance)</td>
+          <td><span class="threshold-level level-3">L3 - Defined</span></td>
+          <td>Vendor-attested SBOMs with documented supply chain. Hardware and firmware provenance is verifiable.</td>
+        </tr>
+        <tr>
+          <td><strong>Identity</strong> (Device Auth)</td>
+          <td><span class="threshold-level level-3">L3 - Defined</span></td>
+          <td>Certificate-based device identity, not shared credentials. Addresses Typhoon-pattern attacks.</td>
+        </tr>
+        <tr>
+          <td><strong>Privacy</strong> (Data Handling)</td>
+          <td><span class="threshold-level level-2">L2 - Managed</span></td>
+          <td>Basic data minimization and encryption. No unauthorized exfiltration of DNS or traffic data.</td>
+        </tr>
+        <tr>
+          <td><strong>Protection</strong> (Hardening)</td>
+          <td><span class="threshold-level level-3">L3 - Defined</span></td>
+          <td>Organization-wide vulnerability management in CI/CD. Firmware resistant to known attack patterns.</td>
+        </tr>
+        <tr>
+          <td><strong>Safety</strong> (Fail-Safe)</td>
+          <td><span class="threshold-level level-2">L2 - Managed</span></td>
+          <td>Documented recovery procedures. Router fails into known-safe state, not persistent threat.</td>
+        </tr>
+        <tr>
+          <td><strong>Security</strong> (Integrity)</td>
+          <td><span class="threshold-level level-3">L3 - Defined</span></td>
+          <td>Code signing, secure boot, integrity monitoring. Firmware updates are authenticated.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.8rem;color:var(--text-dim);margin-top:1rem">L3 across Trust, Identity, Protection, and Security with L2 in Privacy and Safety represents a defensible minimum. Below L3 in any critical dimension indicates unacceptable risk for Conditional Approval.</p>
+</section>
+
+<hr class="divider">
+
+<!-- About VCRI -->
+<section class="section reveal">
+  <h2 class="section-title">About VCRI</h2>
+  <p class="section-subtitle">Independent. Nonprofit. No commercial interest in outcomes.</p>
+  <div style="max-width:720px;margin-bottom:2rem">
+    <p style="font-size:.95rem;color:var(--text-dim);margin-bottom:1rem">The Value Chain Risk Institute is a 501(c)(3) nonprofit cybersecurity clearinghouse. VCRI does not make the Conditional Approval decision -- DoC/DHS retains that authority. VCRI provides the evidence package and risk score. No commercial interest in the outcome.</p>
+  </div>
+  <h3 style="font-size:.9rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem">Board of Directors</h3>
+  <div class="board-grid">
+    <div class="board-member">
+      <div class="name">Mary Ann Davidson</div>
+      <div class="role">Oracle (40-year CSO)</div>
+    </div>
+    <div class="board-member">
+      <div class="name">Allan Friedman</div>
+      <div class="role">Father of SBOM</div>
+    </div>
+    <div class="board-member">
+      <div class="name">Mitch Parker</div>
+      <div class="role">IU Health CISO / IEEE UL 2933</div>
+    </div>
+    <div class="board-member">
+      <div class="name">Tom Cornelius</div>
+      <div class="role">SCF Founder</div>
+    </div>
+    <div class="board-member">
+      <div class="name">Lee Neely</div>
+      <div class="role">LLNL</div>
+    </div>
+    <div class="board-member">
+      <div class="name">Paul Asadoorian</div>
+      <div class="role">Security Weekly Founder</div>
+    </div>
+    <div class="board-member">
+      <div class="name">Robert Hill</div>
+      <div class="role">Cyturus CEO</div>
+    </div>
+    <div class="board-member">
+      <div class="name">Michael Shea</div>
+      <div class="role">United Nations</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CTA -->
+<section class="section reveal">
+  <div class="cta-section">
+    <h2>Ready to start your Conditional Approval assessment?</h2>
+    <p>VCRI offers to pilot this methodology with willing manufacturers at no cost during the initial phase.</p>
+    <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+      <a href="mailto:cairn.works@protonmail.com?subject=Conditional%20Approval%20Assessment%20Inquiry" class="btn btn-primary">Contact VCRI</a>
+      <a href="index.html" class="btn btn-secondary">AttackClock Dashboard</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div>&copy; 2026 AttackClock | A <a href="https://valuechainrisk.org">VCRI</a> Research Project</div>
+  <div class="footer-links">
+    <a href="index.html">Dashboard</a>
+    <a href="mailto:cairn.works@protonmail.com?subject=AttackClock%20Question">Contact</a>
+    <a href="https://valuechainrisk.org">VCRI</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reveals = document.querySelectorAll('.reveal');
+  function checkVisibility(){
+    reveals.forEach(function(el){
+      var rect = el.getBoundingClientRect();
+      if(rect.top < window.innerHeight - 60){
+        el.classList.add('visible');
+      }
+    });
+  }
+  window.addEventListener('scroll', checkVisibility, {passive:true});
+  checkVisibility();
+})();
+</script>
+</body>
+</html>

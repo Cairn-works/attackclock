@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AttackClock — The Full Lifecycle of Cyber Risk</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e1a;--bg2:#111827;--bg3:#1a2236;
+  --text:#e2e8f0;--text-dim:#94a3b8;--text-bright:#f8fafc;
+  --red:#ef4444;--red-glow:#ef444440;
+  --amber:#f59e0b;--amber-glow:#f59e0b40;
+  --green:#22c55e;--green-glow:#22c55e40;
+  --cyan:#06b6d4;--cyan-glow:#06b6d440;
+  --purple:#a855f7;--purple-glow:#a855f740;
+  --blue:#3b82f6;--blue-glow:#3b82f640;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--cyan);text-decoration:none;transition:color .2s}
+a:hover{color:var(--text-bright)}
+
+/* Header */
+.header{text-align:center;padding:2.5rem 1rem 1.5rem;background:linear-gradient(180deg,#0f172a 0%,var(--bg) 100%)}
+.logo-container{display:inline-flex;align-items:center;gap:1rem;margin-bottom:.75rem}
+.logo-text{font-size:2.5rem;font-weight:800;letter-spacing:-.02em;color:var(--text-bright)}
+.logo-text span{color:var(--cyan)}
+.tagline{font-size:1.1rem;color:var(--text-dim);font-weight:300;letter-spacing:.03em}
+
+/* Counters */
+.counters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;max-width:1280px;margin:2rem auto;padding:0 1rem}
+.counter-card{background:var(--bg2);border:1px solid #1e293b;border-radius:12px;padding:1.5rem;text-align:center;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.counter-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.counter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
+.counter-card.danger::before{background:var(--red)}
+.counter-card.warning::before{background:var(--amber)}
+.counter-card.critical::before{background:var(--purple)}
+.counter-card.info::before{background:var(--cyan)}
+.counter-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:.5rem}
+.counter-value{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;min-height:3rem}
+.counter-card.danger .counter-value{color:var(--red)}
+.counter-card.warning .counter-value{color:var(--amber)}
+.counter-card.critical .counter-value{color:var(--purple)}
+.counter-card.info .counter-value{color:var(--cyan)}
+.counter-unit{font-size:.8rem;color:var(--text-dim);margin-top:.25rem}
+.counter-source{font-size:.65rem;color:#475569;margin-top:.5rem}
+
+.source-note{text-align:center;max-width:800px;margin:1rem auto 2rem;padding:0 1rem;font-size:.8rem;color:#475569}
+
+/* Sections */
+.section{max-width:1280px;margin:0 auto;padding:3rem 1rem}
+.section-title{font-size:1.6rem;font-weight:700;color:var(--text-bright);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.section-title::before{content:'';width:4px;height:1.4rem;background:var(--cyan);border-radius:2px;display:inline-block}
+.section-subtitle{color:var(--text-dim);margin-bottom:2rem;font-size:.95rem}
+.divider{border:none;border-top:1px solid #1e293b;margin:0}
+
+/* Timeline */
+.timeline{position:relative;padding:1rem 0}
+.timeline-track{position:relative;display:flex;flex-direction:column;gap:0}
+.timeline-stage{display:grid;grid-template-columns:180px 1fr 80px;align-items:center;gap:1rem;padding:.6rem 0}
+.stage-name{font-size:.85rem;color:var(--text);text-align:right;font-weight:500}
+.stage-bar-container{position:relative;height:28px;background:#1e293b;border-radius:6px;overflow:hidden}
+.stage-bar{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:.75rem;font-size:.7rem;font-weight:600;color:rgba(255,255,255,.9);transition:width 1.5s ease-out;width:0}
+.stage-bar.red{background:linear-gradient(90deg,var(--red),#dc2626)}
+.stage-bar.amber{background:linear-gradient(90deg,var(--amber),#d97706)}
+.stage-bar.green{background:linear-gradient(90deg,var(--green),#16a34a)}
+.stage-bar.cyan{background:linear-gradient(90deg,var(--cyan),#0891b2)}
+.stage-bar.purple{background:linear-gradient(90deg,var(--purple),#9333ea)}
+.stage-bar.blue{background:linear-gradient(90deg,var(--blue),#2563eb)}
+.stage-duration{font-size:.75rem;color:var(--text-dim);white-space:nowrap}
+
+/* Attack Type Cards */
+.attack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.attack-card{background:var(--bg2);border:1px solid #1e293b;border-radius:10px;padding:1.25rem;transition:transform .2s}
+.attack-card:hover{transform:translateY(-2px)}
+.attack-name{font-weight:600;font-size:.95rem;color:var(--text-bright);margin-bottom:.75rem}
+.attack-duration{display:flex;align-items:baseline;gap:.5rem;margin-bottom:.5rem}
+.attack-days{font-size:2rem;font-weight:800;color:var(--amber)}
+.attack-days-label{font-size:.8rem;color:var(--text-dim)}
+.attack-bar{height:6px;background:#1e293b;border-radius:3px;overflow:hidden;margin-bottom:.5rem}
+.attack-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--amber),var(--red));transition:width 1.5s ease-out;width:0}
+.attack-source{font-size:.7rem;color:#475569}
+
+/* Router section */
+.router-section{background:var(--bg2);border:1px solid #1e293b;border-radius:12px;padding:2rem;margin-top:1rem}
+.router-alert{background:linear-gradient(135deg,#1a0505,#1a1005);border:1px solid #7f1d1d;border-radius:8px;padding:1.25rem;margin-bottom:1.5rem;font-size:.9rem;color:var(--amber)}
+.router-alert strong{color:var(--red)}
+.router-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:1.5rem}
+.router-stat{text-align:center;padding:1rem;background:var(--bg);border-radius:8px;border:1px solid #1e293b}
+.router-stat-value{font-size:1.8rem;font-weight:800;color:var(--red)}
+.router-stat-label{font-size:.75rem;color:var(--text-dim);margin-top:.25rem}
+.router-stat-detail{font-size:.7rem;color:#475569;margin-top:.25rem}
+
+/* About */
+.about-content{color:var(--text-dim);font-size:.95rem;max-width:720px}
+.about-content p{margin-bottom:1rem}
+.about-sources{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.about-sources a{display:inline-block;padding:.35rem .75rem;background:var(--bg3);border:1px solid #1e293b;border-radius:6px;font-size:.8rem;transition:background .2s}
+.about-sources a:hover{background:#243049}
+
+/* Footer */
+.footer{text-align:center;padding:2rem 1rem;border-top:1px solid #1e293b;margin-top:3rem;font-size:.8rem;color:#475569}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;margin-top:.75rem}
+.footer-links a{color:#64748b;font-size:.8rem}
+.footer-links a:hover{color:var(--cyan)}
+
+/* Logo SVG */
+.logo-svg{width:48px;height:48px;flex-shrink:0}
+
+/* Responsive */
+@media(max-width:768px){
+  .counters{grid-template-columns:repeat(2,1fr);gap:.75rem}
+  .logo-text{font-size:1.8rem}
+  .timeline-stage{grid-template-columns:120px 1fr 60px}
+  .stage-name{font-size:.75rem}
+  .counter-value{font-size:1.8rem}
+  .section{padding:2rem .75rem}
+}
+@media(max-width:480px){
+  .counters{grid-template-columns:1fr 1fr}
+  .counter-card{padding:1rem}
+  .counter-value{font-size:1.5rem}
+  .timeline-stage{grid-template-columns:100px 1fr 50px}
+  .stage-name{font-size:.7rem}
+}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.counter-card{animation:fadeInUp .6s ease-out backwards}
+.counter-card:nth-child(1){animation-delay:.1s}
+.counter-card:nth-child(2){animation-delay:.2s}
+.counter-card:nth-child(3){animation-delay:.3s}
+.counter-card:nth-child(4){animation-delay:.4s}
+.counter-card:nth-child(5){animation-delay:.5s}
+.counter-card:nth-child(6){animation-delay:.6s}
+
+/* Intersection observer reveal */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-container">
+    <svg class="logo-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Clock face -->
+      <circle cx="24" cy="24" r="22" stroke="#06b6d4" stroke-width="2" fill="none" opacity="0.3"/>
+      <circle cx="24" cy="24" r="20" stroke="#06b6d4" stroke-width="1.5" fill="none"/>
+      <!-- Tick marks -->
+      <line x1="24" y1="5" x2="24" y2="8" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/>
+      <line x1="24" y1="40" x2="24" y2="43" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="5" y1="24" x2="8" y2="24" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="40" y1="24" x2="43" y2="24" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Lightning bolt hour hand -->
+      <polygon points="24,8 21,20 25,19 22,30 28,16 24,17 26,8" fill="#f8fafc" opacity="0.95"/>
+      <!-- Minute hand -->
+      <line x1="24" y1="24" x2="35" y2="18" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/>
+      <!-- Center dot -->
+      <circle cx="24" cy="24" r="2.5" fill="#ef4444"/>
+      <!-- Shield outline overlay -->
+      <path d="M24 2 L38 10 L38 26 Q38 38 24 46 Q10 38 10 26 L10 10 Z" stroke="#06b6d4" stroke-width="1" fill="none" opacity="0.15"/>
+    </svg>
+    <div class="logo-text">Attack<span>Clock</span></div>
+  </div>
+  <div class="tagline">The Full Lifecycle of Cyber Risk &mdash; In Real Time</div>
+  <div style="margin-top:.75rem;display:flex;align-items:center;justify-content:center;gap:.6rem">
+    <img src="vcri-logo.png" alt="VCRI" style="height:28px;opacity:.9">
+    <span style="font-size:.85rem;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;font-weight:600"><a href="https://valuechainrisk.org" style="color:var(--cyan)">A Value Chain Risk Institute Research Project</a></span>
+  </div>
+  <div style="margin-top:1rem;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+    <a href="mailto:cairn.works@protonmail.com?subject=AttackClock%20Question" style="display:inline-flex;align-items:center;gap:.4rem;background:var(--bg3);border:1px solid var(--cyan);color:var(--cyan);padding:.5rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s" onmouseover="this.style.background='var(--cyan)';this.style.color='var(--bg)'" onmouseout="this.style.background='var(--bg3)';this.style.color='var(--cyan)'">&#9993; Ask Cairn</a>
+    <a href="conditional-approval.html" style="display:inline-flex;align-items:center;gap:.4rem;background:var(--bg3);border:1px solid var(--red);color:var(--red);padding:.5rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s" onmouseover="this.style.background='var(--red)';this.style.color='var(--bg)'" onmouseout="this.style.background='var(--bg3)';this.style.color='var(--red)'">&#9888; FCC Router Ban &rarr;</a>
+    <a href="https://valuechainrisk.org" style="display:inline-flex;align-items:center;gap:.4rem;background:var(--bg3);border:1px solid var(--amber);color:var(--amber);padding:.5rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s" onmouseover="this.style.background='var(--amber)';this.style.color='var(--bg)'" onmouseout="this.style.background='var(--bg3)';this.style.color='var(--amber)'">&#9888; Assess Your Vendors &rarr;</a>
+  </div>
+</header>
+
+<div id="counters" class="counters">
+  <!-- Populated by JS from data.json -->
+</div>
+
+<p class="source-note">Data sourced from CISA, IBM, Mandiant, Coveware, and open research. Updated regularly.</p>
+
+<hr class="divider">
+
+<!-- Attack Timeline -->
+<section class="section reveal">
+  <h2 class="section-title">The Attack Timeline</h2>
+  <p class="section-subtitle">Median durations across each stage of a typical breach lifecycle</p>
+  <div class="timeline">
+    <div class="timeline-track" id="timeline">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- By Attack Type -->
+<section class="section reveal">
+  <h2 class="section-title">By Attack Type</h2>
+  <p class="section-subtitle">How long each class of attack persists before detection or resolution</p>
+  <div class="attack-grid" id="attack-grid">
+    <!-- Populated by JS -->
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Router Threat Dashboard -->
+<section class="section reveal">
+  <h2 class="section-title">Router Threat Dashboard</h2>
+  <p class="section-subtitle">Consumer router infrastructure &mdash; an active and growing attack surface</p>
+  <div class="router-section">
+    <div class="router-alert">
+      <strong>FCC Action:</strong> On March 23, 2026, the FCC banned all foreign-made consumer routers from new authorization in the United States.
+    </div>
+    <div class="router-stats">
+      <div class="router-stat">
+        <div class="router-stat-value">125M</div>
+        <div class="router-stat-label">Foreign routers in US households</div>
+        <div class="router-stat-detail">Already deployed and unpatched</div>
+      </div>
+      <div class="router-stat">
+        <div class="router-stat-value">5+ yrs</div>
+        <div class="router-stat-label">Volt Typhoon dwell time</div>
+        <div class="router-stat-detail">CISA AA24-038A</div>
+      </div>
+      <div class="router-stat">
+        <div class="router-stat-value">260K</div>
+        <div class="router-stat-label">Flax Typhoon devices</div>
+        <div class="router-stat-detail">FBI/CISA disruption 2024</div>
+      </div>
+      <div class="router-stat">
+        <div class="router-stat-value">500K</div>
+        <div class="router-stat-label">VPNFilter devices</div>
+        <div class="router-stat-detail">54 countries, 2018</div>
+      </div>
+    </div>
+    <p style="font-size:.9rem;color:var(--text-dim);">
+      <a href="conditional-approval.html">Learn more about VCRI's Conditional Approval methodology &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- About -->
+<section class="section reveal">
+  <h2 class="section-title">About</h2>
+  <div class="about-content">
+    <p>AttackClock aggregates open-source threat intelligence to show the full lifecycle of cyber risk &mdash; from vulnerability disclosure through exploitation, dwell time, detection, and recovery.</p>
+    <p>Data from: CISA KEV, IBM Cost of Data Breach, Mandiant M-Trends, Coveware, Zero Day Clock, NVD, and other open sources.</p>
+    <p>Built by Cairn. A project of the <a href="https://valuechainrisk.org" target="_blank" rel="noopener">Value Chain Risk Institute</a>.</p>
+    <div class="about-sources" id="source-links">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div>&copy; 2026 AttackClock | A <a href="https://valuechainrisk.org">VCRI</a> Research Project | Data updated <span id="last-updated">2026-03-31</span></div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#">Methodology</a>
+    <a href="#">API (coming soon)</a>
+    <a href="#">GitHub</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Counter animation
+  function animateValue(el, start, end, duration, formatter) {
+    const startTime = performance.now();
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(start + (end - start) * eased);
+      el.textContent = formatter(current);
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  function formatNumber(n) {
+    if (n >= 1e9) return (n / 1e9).toFixed(1) + 'B';
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return n.toLocaleString();
+    return n.toString();
+  }
+
+  function formatDays(n) { return n.toLocaleString(); }
+
+  // Timeline data (static — these are conceptual lifecycle stages)
+  const timelineStages = [
+    { name: 'Vulnerability Disclosed', days: 1, pct: 2, color: 'cyan', label: 'Day 0' },
+    { name: 'Exploit Available (TTE)', days: 14, pct: 8, color: 'amber', label: '~14 days' },
+    { name: 'Active Exploitation', days: 30, pct: 12, color: 'red', label: '~30 days' },
+    { name: 'Breach Occurs', days: 1, pct: 2, color: 'red', label: 'Event' },
+    { name: 'Dwell Time (undetected)', days: 258, pct: 65, color: 'purple', label: '~258 days' },
+    { name: 'Detection', days: 1, pct: 2, color: 'green', label: 'Event' },
+    { name: 'Containment', days: 73, pct: 22, color: 'amber', label: '~73 days' },
+    { name: 'Recovery', days: 90, pct: 28, color: 'blue', label: '~90 days' },
+    { name: 'Public Disclosure', days: 1, pct: 2, color: 'cyan', label: 'Event' }
+  ];
+
+  const counterDefs = [
+    { key: 'tte_median_days', label: 'Time to Exploit', unit: 'median days', source: 'Zero Day Clock', cls: 'warning', fmt: formatDays, suffix: ' days' },
+    { key: 'breach_dwell_mean_days', label: 'Breach Dwell Time', unit: 'mean days', source: 'IBM CODB 2024', cls: 'danger', fmt: formatDays, suffix: ' days' },
+    { key: 'ransomware_downtime_days', label: 'Ransomware Downtime', unit: 'median days', source: 'Coveware 2024', cls: 'warning', fmt: formatDays, suffix: ' days' },
+    { key: 'apt_dwell_median_days', label: 'APT Dwell Time', unit: 'median days', source: 'CISA / Volt Typhoon', cls: 'critical', fmt: function(n){ return formatDays(n) + '+'; }, suffix: ' days' },
+    { key: 'records_exposed_2025', label: 'Records Exposed 2025', unit: 'running estimate', source: 'Aggregated', cls: 'info', fmt: function(n){ return formatNumber(n) + '+'; }, suffix: '' },
+    { key: 'breaches_disclosed_2025', label: 'Breaches Disclosed 2025', unit: 'running estimate', source: 'Aggregated', cls: 'info', fmt: function(n){ return formatNumber(n) + '+'; }, suffix: '' }
+  ];
+
+  // Fetch data
+  fetch('data.json')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      // Update date
+      document.getElementById('last-updated').textContent = data.last_updated;
+
+      // Build counters
+      var countersEl = document.getElementById('counters');
+      counterDefs.forEach(function(def){
+        var val = data.counters[def.key];
+        var card = document.createElement('div');
+        card.className = 'counter-card ' + def.cls;
+        card.innerHTML = '<div class="counter-label">' + def.label + '</div>' +
+          '<div class="counter-value" data-target="' + val + '">0</div>' +
+          '<div class="counter-unit">' + def.unit + '</div>' +
+          '<div class="counter-source">' + def.source + '</div>';
+        countersEl.appendChild(card);
+
+        // Animate after a brief delay
+        setTimeout(function(){
+          var valEl = card.querySelector('.counter-value');
+          animateValue(valEl, 0, val, 2000, def.fmt);
+        }, 300);
+      });
+
+      // Build timeline
+      var timelineEl = document.getElementById('timeline');
+      timelineStages.forEach(function(stage, i){
+        var row = document.createElement('div');
+        row.className = 'timeline-stage';
+        row.innerHTML = '<div class="stage-name">' + stage.name + '</div>' +
+          '<div class="stage-bar-container"><div class="stage-bar ' + stage.color + '" style="width:0%" data-width="' + Math.max(stage.pct, 4) + '%"></div></div>' +
+          '<div class="stage-duration">' + stage.label + '</div>';
+        timelineEl.appendChild(row);
+      });
+
+      // Build attack type cards
+      var gridEl = document.getElementById('attack-grid');
+      var maxDays = 730;
+      data.attack_types.forEach(function(atk){
+        var days = atk.median_days || atk.mean_days || 0;
+        var daysDisplay = days < 1 ? '<1 hr' : Math.round(days).toString();
+        var daysLabel = days < 1 ? '' : 'days';
+        var pct = Math.max((days / maxDays) * 100, 1);
+
+        var card = document.createElement('div');
+        card.className = 'attack-card';
+        card.innerHTML = '<div class="attack-name">' + atk.name + '</div>' +
+          '<div class="attack-duration"><span class="attack-days">' + daysDisplay + '</span><span class="attack-days-label">' + daysLabel + '</span></div>' +
+          '<div class="attack-bar"><div class="attack-bar-fill" data-width="' + pct + '%" style="width:0%"></div></div>' +
+          '<div class="attack-source">' + atk.source + '</div>';
+        gridEl.appendChild(card);
+      });
+
+      // Build source links
+      var srcEl = document.getElementById('source-links');
+      data.sources.forEach(function(s){
+        var a = document.createElement('a');
+        a.href = s.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = s.name;
+        srcEl.appendChild(a);
+      });
+
+      // Extra links
+      [
+        { name: 'CISA KEV', url: 'https://www.cisa.gov/known-exploited-vulnerabilities-catalog' },
+        { name: 'Zero Day Clock', url: 'https://zerodayclock.com' }
+      ].forEach(function(s){
+        var a = document.createElement('a');
+        a.href = s.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = s.name;
+        srcEl.appendChild(a);
+      });
+
+      // Animate bars on scroll
+      initScrollAnimations();
+    })
+    .catch(function(err){
+      console.error('Failed to load data.json:', err);
+    });
+
+  function initScrollAnimations(){
+    // Reveal sections
+    var reveals = document.querySelectorAll('.reveal');
+    var bars = document.querySelectorAll('[data-width]');
+    var animated = new Set();
+
+    function checkVisibility(){
+      reveals.forEach(function(el){
+        var rect = el.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 60){
+          el.classList.add('visible');
+        }
+      });
+      bars.forEach(function(bar){
+        if(animated.has(bar)) return;
+        var rect = bar.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 40){
+          animated.add(bar);
+          setTimeout(function(){
+            bar.style.width = bar.getAttribute('data-width');
+          }, 100);
+        }
+      });
+    }
+
+    window.addEventListener('scroll', checkVisibility, {passive:true});
+    // Initial check
+    checkVisibility();
+  }
+})();
+</script>
+</body>
+</html>

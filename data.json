@@ -1,0 +1,28 @@
+{
+  "last_updated": "2026-03-31",
+  "counters": {
+    "tte_median_days": 14,
+    "breach_dwell_mean_days": 258,
+    "ransomware_downtime_days": 24,
+    "apt_dwell_median_days": 540,
+    "records_exposed_2025": 1700000000,
+    "breaches_disclosed_2025": 3200
+  },
+  "attack_types": [
+    {"name": "Ransomware (full encryption)", "median_days": 24, "source": "Coveware 2024"},
+    {"name": "Credential compromise", "mean_days": 371, "source": "IBM CODB 2024"},
+    {"name": "Supply chain — firmware", "median_days": 180, "source": "SolarWinds/3CX analysis"},
+    {"name": "APT / Nation-state", "median_days": 540, "source": "CISA AA24-038A"},
+    {"name": "Firmware backdoor", "median_days": 730, "source": "VPNFilter, Flax Typhoon"},
+    {"name": "Router botnet", "median_days": 90, "source": "FBI/CISA Flax Typhoon"},
+    {"name": "DDoS", "median_days": 0.04, "source": "Cloudflare 2024"},
+    {"name": "Insider threat", "median_days": 197, "source": "CERT/SEI"}
+  ],
+  "sources": [
+    {"name": "IBM Cost of Data Breach 2024", "url": "https://www.ibm.com/reports/data-breach"},
+    {"name": "CISA Advisory AA24-038A", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a"},
+    {"name": "Zero Day Clock", "url": "https://zerodayclock.com"},
+    {"name": "Coveware Ransomware Reports", "url": "https://www.coveware.com"},
+    {"name": "Mandiant M-Trends 2024", "url": "https://www.mandiant.com/m-trends"}
+  ]
+}
