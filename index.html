@@ -17,35 +17,65 @@
   --blue:#3b82f6;--blue-glow:#3b82f640;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+/* CSS Grid background */
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(6,182,212,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,0.03) 1px,transparent 1px);
+  background-size:60px 60px}
+body>*{position:relative;z-index:1}
 a{color:var(--cyan);text-decoration:none;transition:color .2s}
 a:hover{color:var(--text-bright)}
 
 /* Header */
-.header{text-align:center;padding:2.5rem 1rem 1.5rem;background:linear-gradient(180deg,#0f172a 0%,var(--bg) 100%)}
+.header{text-align:center;padding:2.5rem 1rem 1.5rem;background:linear-gradient(180deg,#0f172a 0%,var(--bg) 100%);position:relative;overflow:hidden}
+/* Scanline overlay on hero */
+.header::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);z-index:2}
+.header>*{position:relative;z-index:3}
 .logo-container{display:inline-flex;align-items:center;gap:1rem;margin-bottom:.75rem}
 .logo-text{font-size:2.5rem;font-weight:800;letter-spacing:-.02em;color:var(--text-bright)}
 .logo-text span{color:var(--cyan)}
 .tagline{font-size:1.1rem;color:var(--text-dim);font-weight:300;letter-spacing:.03em}
 
+/* Logo pulse animation */
+@keyframes pulse-dot{0%,100%{r:2.5;opacity:1}50%{r:3.5;opacity:.7}}
+.logo-svg .pulse-dot{animation:pulse-dot 1.5s ease-in-out infinite}
+
+/* Industry pills */
+.industry-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;max-width:900px;margin:1.5rem auto .5rem;padding:0 1rem}
+.industry-pill{padding:.4rem 1rem;border-radius:20px;font-size:.8rem;font-weight:600;cursor:pointer;border:1px solid #1e293b;background:var(--bg2);color:var(--text-dim);transition:all .25s;text-transform:capitalize;user-select:none}
+.industry-pill:hover{border-color:var(--cyan);color:var(--text)}
+.industry-pill.active{background:var(--cyan);color:var(--bg);border-color:var(--cyan)}
+
 /* Counters */
-.counters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;max-width:1280px;margin:2rem auto;padding:0 1rem}
+.counters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;max-width:1280px;margin:1rem auto 2rem;padding:0 1rem}
 .counter-card{background:var(--bg2);border:1px solid #1e293b;border-radius:12px;padding:1.5rem;text-align:center;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
-.counter-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.counter-card:hover{transform:translateY(-2px)}
+.counter-card.danger:hover{box-shadow:0 8px 32px var(--red-glow)}
+.counter-card.warning:hover{box-shadow:0 8px 32px var(--amber-glow)}
+.counter-card.critical:hover{box-shadow:0 8px 32px var(--purple-glow)}
+.counter-card.info:hover{box-shadow:0 8px 32px var(--cyan-glow)}
 .counter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
 .counter-card.danger::before{background:var(--red)}
 .counter-card.warning::before{background:var(--amber)}
 .counter-card.critical::before{background:var(--purple)}
 .counter-card.info::before{background:var(--cyan)}
 .counter-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:.5rem}
-.counter-value{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;min-height:3rem}
+.counter-value{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;min-height:3rem;transition:color .3s}
 .counter-card.danger .counter-value{color:var(--red)}
 .counter-card.warning .counter-value{color:var(--amber)}
 .counter-card.critical .counter-value{color:var(--purple)}
 .counter-card.info .counter-value{color:var(--cyan)}
 .counter-unit{font-size:.8rem;color:var(--text-dim);margin-top:.25rem}
 .counter-source{font-size:.65rem;color:#475569;margin-top:.5rem}
+/* Cite button */
+.cite-btn{display:inline-flex;align-items:center;gap:.25rem;margin-top:.5rem;padding:.2rem .6rem;font-size:.65rem;color:#475569;background:transparent;border:1px solid #1e293b;border-radius:4px;cursor:pointer;transition:all .2s}
+.cite-btn:hover{border-color:var(--cyan);color:var(--cyan)}
 
-.source-note{text-align:center;max-width:800px;margin:1rem auto 2rem;padding:0 1rem;font-size:.8rem;color:#475569}
+.source-note{text-align:center;max-width:800px;margin:0 auto 2rem;padding:0 1rem;font-size:.8rem;color:#475569}
+
+/* Toast */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--cyan);color:var(--bg);padding:.6rem 1.5rem;border-radius:8px;font-size:.85rem;font-weight:600;z-index:9999;transition:transform .3s ease;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
 
 /* Sections */
 .section{max-width:1280px;margin:0 auto;padding:3rem 1rem}
@@ -54,7 +84,35 @@ a:hover{color:var(--text-bright)}
 .section-subtitle{color:var(--text-dim);margin-bottom:2rem;font-size:.95rem}
 .divider{border:none;border-top:1px solid #1e293b;margin:0}
 
-/* Timeline */
+/* Hero Attack Timeline */
+.hero-timeline{max-width:1100px;margin:0 auto;padding:0 1rem}
+.hero-timeline-title{font-size:1rem;font-weight:700;color:var(--text-bright);margin-bottom:.25rem;text-align:center;text-transform:uppercase;letter-spacing:.08em}
+.hero-timeline-sub{font-size:.8rem;color:var(--text-dim);text-align:center;margin-bottom:1.25rem}
+.hero-bar-container{display:flex;width:100%;height:56px;border-radius:8px;overflow:hidden;background:#1e293b;position:relative}
+.hero-bar-segment{display:flex;align-items:center;justify-content:center;flex-direction:column;transition:flex-basis 1.5s ease-out;flex-basis:0%;overflow:hidden;position:relative;cursor:default}
+.hero-bar-segment .seg-label{font-size:.65rem;font-weight:700;color:rgba(255,255,255,.95);white-space:nowrap;line-height:1.1}
+.hero-bar-segment .seg-days{font-size:.85rem;font-weight:800;color:#fff;white-space:nowrap}
+.hero-bar-segment.seg-tte{background:linear-gradient(135deg,#22c55e,#16a34a)}
+.hero-bar-segment.seg-exploit{background:var(--red);flex-basis:0.5%!important;min-width:4px;max-width:8px}
+.hero-bar-segment.seg-exploit::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:var(--red);animation:flash-red 1s ease-in-out infinite}
+@keyframes flash-red{0%,100%{opacity:1}50%{opacity:.4}}
+.hero-bar-segment.seg-dwell{background:linear-gradient(135deg,#f59e0b,#ef4444)}
+.hero-bar-segment.seg-contain{background:linear-gradient(135deg,#f97316,#ea580c)}
+.hero-bar-segment.seg-recovery{background:linear-gradient(135deg,#22c55e,#16a34a)}
+/* Labels below the bar */
+.hero-bar-labels{display:flex;width:100%;margin-top:.35rem}
+.hero-bar-label{text-align:center;font-size:.65rem;color:var(--text-dim);overflow:hidden;white-space:nowrap}
+
+/* Vertical layout for mobile */
+@media(max-width:640px){
+  .hero-bar-container{flex-direction:column;height:auto}
+  .hero-bar-segment{height:40px;flex-basis:auto!important;min-width:unset;max-width:unset;flex-direction:row;gap:.5rem;justify-content:flex-start;padding-left:1rem}
+  .hero-bar-segment.seg-exploit{max-width:unset;min-width:unset;height:6px}
+  .hero-bar-labels{flex-direction:column}
+  .hero-bar-label{text-align:left;padding-left:1rem}
+}
+
+/* Old timeline (now replaced by hero, but keep structure for attack lifecycle detail) */
 .timeline{position:relative;padding:1rem 0}
 .timeline-track{position:relative;display:flex;flex-direction:column;gap:0}
 .timeline-stage{display:grid;grid-template-columns:180px 1fr 80px;align-items:center;gap:1rem;padding:.6rem 0}
@@ -71,8 +129,8 @@ a:hover{color:var(--text-bright)}
 
 /* Attack Type Cards */
 .attack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
-.attack-card{background:var(--bg2);border:1px solid #1e293b;border-radius:10px;padding:1.25rem;transition:transform .2s}
-.attack-card:hover{transform:translateY(-2px)}
+.attack-card{background:var(--bg2);border:1px solid #1e293b;border-radius:10px;padding:1.25rem;transition:transform .2s,box-shadow .2s}
+.attack-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.3)}
 .attack-name{font-weight:600;font-size:.95rem;color:var(--text-bright);margin-bottom:.75rem}
 .attack-duration{display:flex;align-items:baseline;gap:.5rem;margin-bottom:.5rem}
 .attack-days{font-size:2rem;font-weight:800;color:var(--amber)}
@@ -80,6 +138,15 @@ a:hover{color:var(--text-bright)}
 .attack-bar{height:6px;background:#1e293b;border-radius:3px;overflow:hidden;margin-bottom:.5rem}
 .attack-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--amber),var(--red));transition:width 1.5s ease-out;width:0}
 .attack-source{font-size:.7rem;color:#475569}
+
+/* Weekly Feed */
+.feed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.feed-card{background:var(--bg2);border:1px solid #1e293b;border-radius:10px;padding:1.25rem;transition:transform .2s,box-shadow .2s}
+.feed-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.feed-date{font-size:.7rem;color:var(--cyan);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.feed-headline{font-size:.95rem;font-weight:700;color:var(--text-bright);margin-bottom:.5rem;line-height:1.3}
+.feed-desc{font-size:.8rem;color:var(--text-dim);margin-bottom:.75rem;line-height:1.5}
+.feed-source{font-size:.7rem;color:var(--cyan)}
 
 /* Router section */
 .router-section{background:var(--bg2);border:1px solid #1e293b;border-radius:12px;padding:2rem;margin-top:1rem}
@@ -97,6 +164,8 @@ a:hover{color:var(--text-bright)}
 .about-sources{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
 .about-sources a{display:inline-block;padding:.35rem .75rem;background:var(--bg3);border:1px solid #1e293b;border-radius:6px;font-size:.8rem;transition:background .2s}
 .about-sources a:hover{background:#243049}
+.embed-teaser{margin-top:1.5rem;padding:1rem;background:var(--bg3);border:1px solid #1e293b;border-radius:8px;font-size:.85rem;color:var(--text-dim)}
+.embed-teaser strong{color:var(--cyan)}
 
 /* Footer */
 .footer{text-align:center;padding:2rem 1rem;border-top:1px solid #1e293b;margin-top:3rem;font-size:.8rem;color:#475569}
@@ -156,8 +225,8 @@ a:hover{color:var(--text-bright)}
       <polygon points="24,8 21,20 25,19 22,30 28,16 24,17 26,8" fill="#f8fafc" opacity="0.95"/>
       <!-- Minute hand -->
       <line x1="24" y1="24" x2="35" y2="18" stroke="#06b6d4" stroke-width="2" stroke-linecap="round"/>
-      <!-- Center dot -->
-      <circle cx="24" cy="24" r="2.5" fill="#ef4444"/>
+      <!-- Center dot with pulse -->
+      <circle class="pulse-dot" cx="24" cy="24" r="2.5" fill="#ef4444"/>
       <!-- Shield outline overlay -->
       <path d="M24 2 L38 10 L38 26 Q38 38 24 46 Q10 38 10 26 L10 10 Z" stroke="#06b6d4" stroke-width="1" fill="none" opacity="0.15"/>
     </svg>
@@ -173,17 +242,60 @@ a:hover{color:var(--text-bright)}
     <a href="conditional-approval.html" style="display:inline-flex;align-items:center;gap:.4rem;background:var(--bg3);border:1px solid var(--red);color:var(--red);padding:.5rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s" onmouseover="this.style.background='var(--red)';this.style.color='var(--bg)'" onmouseout="this.style.background='var(--bg3)';this.style.color='var(--red)'">&#9888; FCC Router Ban &rarr;</a>
     <a href="https://valuechainrisk.org" style="display:inline-flex;align-items:center;gap:.4rem;background:var(--bg3);border:1px solid var(--amber);color:var(--amber);padding:.5rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s" onmouseover="this.style.background='var(--amber)';this.style.color='var(--bg)'" onmouseout="this.style.background='var(--bg3)';this.style.color='var(--amber)'">&#9888; Assess Your Vendors &rarr;</a>
   </div>
+
+  <!-- Hero Attack Timeline Visualization -->
+  <div class="hero-timeline" style="margin-top:2rem">
+    <div class="hero-timeline-title">The Attack Lifecycle</div>
+    <div class="hero-timeline-sub">Proportional view &mdash; see where the time actually goes</div>
+    <div class="hero-bar-container" id="hero-timeline">
+      <div class="hero-bar-segment seg-tte" data-flex="3.7" style="flex-basis:0%">
+        <span class="seg-label">TTE</span>
+        <span class="seg-days">14d</span>
+      </div>
+      <div class="hero-bar-segment seg-exploit"></div>
+      <div class="hero-bar-segment seg-dwell" data-flex="67.8" style="flex-basis:0%">
+        <span class="seg-label">DWELL TIME</span>
+        <span class="seg-days">258d</span>
+      </div>
+      <div class="hero-bar-segment seg-contain" data-flex="16.8" style="flex-basis:0%">
+        <span class="seg-label">Containment</span>
+        <span class="seg-days">64d</span>
+      </div>
+      <div class="hero-bar-segment seg-recovery" data-flex="6.3" style="flex-basis:0%">
+        <span class="seg-label">Recovery</span>
+        <span class="seg-days">24d</span>
+      </div>
+    </div>
+    <div class="hero-bar-labels" id="hero-labels">
+      <div class="hero-bar-label" style="flex-basis:3.7%">Vuln &rarr; Exploit</div>
+      <div class="hero-bar-label" style="flex-basis:0.5%"></div>
+      <div class="hero-bar-label" style="flex-basis:67.8%">Attackers are IN. You don't know.</div>
+      <div class="hero-bar-label" style="flex-basis:16.8%">Detect &rarr; Contain</div>
+      <div class="hero-bar-label" style="flex-basis:6.3%">Recover</div>
+    </div>
+  </div>
 </header>
+
+<!-- Industry Selector -->
+<div class="industry-pills" id="industry-pills">
+  <button class="industry-pill active" data-industry="all">All Industries</button>
+  <button class="industry-pill" data-industry="healthcare">Healthcare</button>
+  <button class="industry-pill" data-industry="finance">Finance</button>
+  <button class="industry-pill" data-industry="government">Government</button>
+  <button class="industry-pill" data-industry="manufacturing">Manufacturing</button>
+  <button class="industry-pill" data-industry="technology">Technology</button>
+  <button class="industry-pill" data-industry="retail">Retail</button>
+</div>
 
 <div id="counters" class="counters">
   <!-- Populated by JS from data.json -->
 </div>
 
-<p class="source-note">Data sourced from CISA, IBM, Mandiant, Coveware, and open research. Updated regularly.</p>
+<p class="source-note">Data sourced from CISA, IBM, Mandiant, Coveware, and open research. Updated regularly. Select an industry above to see sector-specific numbers.</p>
 
 <hr class="divider">
 
-<!-- Attack Timeline -->
+<!-- Attack Timeline Detail -->
 <section class="section reveal">
   <h2 class="section-title">The Attack Timeline</h2>
   <p class="section-subtitle">Median durations across each stage of a typical breach lifecycle</p>
@@ -201,6 +313,17 @@ a:hover{color:var(--text-bright)}
   <h2 class="section-title">By Attack Type</h2>
   <p class="section-subtitle">How long each class of attack persists before detection or resolution</p>
   <div class="attack-grid" id="attack-grid">
+    <!-- Populated by JS -->
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- What Changed This Week -->
+<section class="section reveal">
+  <h2 class="section-title">What Changed This Week</h2>
+  <p class="section-subtitle">Recent developments in attack timelines, threat intelligence, and policy</p>
+  <div class="feed-grid" id="weekly-feed">
     <!-- Populated by JS -->
   </div>
 </section>
@@ -252,6 +375,9 @@ a:hover{color:var(--text-bright)}
     <p>AttackClock aggregates open-source threat intelligence to show the full lifecycle of cyber risk &mdash; from vulnerability disclosure through exploitation, dwell time, detection, and recovery.</p>
     <p>Data from: CISA KEV, IBM Cost of Data Breach, Mandiant M-Trends, Coveware, Zero Day Clock, NVD, and other open sources.</p>
     <p>Built by Cairn. A project of the <a href="https://valuechainrisk.org" target="_blank" rel="noopener">Value Chain Risk Institute</a>.</p>
+    <div class="embed-teaser">
+      <strong>Want to embed AttackClock data on your site?</strong> API and embeddable widgets coming soon. <a href="mailto:cairn.works@protonmail.com?subject=AttackClock%20Embed%20Interest">Contact us</a>.
+    </div>
     <div class="about-sources" id="source-links">
       <!-- Populated by JS -->
     </div>
@@ -259,7 +385,7 @@ a:hover{color:var(--text-bright)}
 </section>
 
 <footer class="footer">
-  <div>&copy; 2026 AttackClock | A <a href="https://valuechainrisk.org">VCRI</a> Research Project | Data updated <span id="last-updated">2026-03-31</span></div>
+  <div>&copy; 2026 AttackClock | A <a href="https://valuechainrisk.org">VCRI</a> Research Project | Data updated <span id="last-updated">2026-04-03</span></div>
   <div class="footer-links">
     <a href="#about">About</a>
     <a href="#">Methodology</a>
@@ -268,17 +394,22 @@ a:hover{color:var(--text-bright)}
   </div>
 </footer>
 
+<!-- Toast notification -->
+<div class="toast" id="toast">Copied!</div>
+
 <script>
 (function(){
+  var DATA = null;
+  var currentIndustry = 'all';
+
   // Counter animation
   function animateValue(el, start, end, duration, formatter) {
-    const startTime = performance.now();
+    var startTime = performance.now();
     function update(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.floor(start + (end - start) * eased);
+      var elapsed = currentTime - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = Math.floor(start + (end - start) * eased);
       el.textContent = formatter(current);
       if (progress < 1) requestAnimationFrame(update);
     }
@@ -294,8 +425,34 @@ a:hover{color:var(--text-bright)}
 
   function formatDays(n) { return n.toLocaleString(); }
 
-  // Timeline data (static — these are conceptual lifecycle stages)
-  const timelineStages = [
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg || 'Copied!';
+    t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 1800);
+  }
+
+  function copyToClipboard(text) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function(){ showToast('Copied!'); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Copied!');
+    }
+  }
+
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  // Timeline data (static — conceptual lifecycle stages)
+  var timelineStages = [
     { name: 'Vulnerability Disclosed', days: 1, pct: 2, color: 'cyan', label: 'Day 0' },
     { name: 'Exploit Available (TTE)', days: 14, pct: 8, color: 'amber', label: '~14 days' },
     { name: 'Active Exploitation', days: 30, pct: 12, color: 'red', label: '~30 days' },
@@ -307,44 +464,127 @@ a:hover{color:var(--text-bright)}
     { name: 'Public Disclosure', days: 1, pct: 2, color: 'cyan', label: 'Event' }
   ];
 
-  const counterDefs = [
-    { key: 'tte_median_days', label: 'Time to Exploit', unit: 'median days', source: 'Zero Day Clock', cls: 'warning', fmt: formatDays, suffix: ' days' },
-    { key: 'breach_dwell_mean_days', label: 'Breach Dwell Time', unit: 'mean days', source: 'IBM CODB 2024', cls: 'danger', fmt: formatDays, suffix: ' days' },
-    { key: 'ransomware_downtime_days', label: 'Ransomware Downtime', unit: 'median days', source: 'Coveware 2024', cls: 'warning', fmt: formatDays, suffix: ' days' },
-    { key: 'apt_dwell_median_days', label: 'APT Dwell Time', unit: 'median days', source: 'CISA / Volt Typhoon', cls: 'critical', fmt: function(n){ return formatDays(n) + '+'; }, suffix: ' days' },
-    { key: 'records_exposed_2025', label: 'Records Exposed 2025', unit: 'running estimate', source: 'Aggregated', cls: 'info', fmt: function(n){ return formatNumber(n) + '+'; }, suffix: '' },
-    { key: 'breaches_disclosed_2025', label: 'Breaches Disclosed 2025', unit: 'running estimate', source: 'Aggregated', cls: 'info', fmt: function(n){ return formatNumber(n) + '+'; }, suffix: '' }
+  var counterDefs = [
+    { key: 'tte', label: 'Time to Exploit', unit: 'median days', source: 'Zero Day Clock', cls: 'warning', fmt: formatDays, suffix: ' days', metric: 'Time to Exploit', srcName: 'Zero Day Clock' },
+    { key: 'dwell', label: 'Breach Dwell Time', unit: 'mean days', source: 'IBM CODB 2024', cls: 'danger', fmt: formatDays, suffix: ' days', metric: 'Breach Dwell Time', srcName: 'IBM CODB 2024' },
+    { key: 'ransomware', label: 'Ransomware Downtime', unit: 'median days', source: 'Coveware 2024', cls: 'warning', fmt: formatDays, suffix: ' days', metric: 'Ransomware Downtime', srcName: 'Coveware 2024' },
+    { key: 'apt', label: 'APT Dwell Time', unit: 'median days', source: 'CISA / Volt Typhoon', cls: 'critical', fmt: function(n){ return formatDays(n) + '+'; }, suffix: ' days', metric: 'APT Dwell Time', srcName: 'CISA / Volt Typhoon' },
+    { key: 'records', label: 'Records Exposed 2025', unit: 'running estimate', source: 'Aggregated', cls: 'info', fmt: function(n){ return formatNumber(n) + '+'; }, suffix: '', metric: 'Records Exposed in 2025', srcName: 'Aggregated sources' },
+    { key: 'breaches', label: 'Breaches Disclosed 2025', unit: 'running estimate', source: 'Aggregated', cls: 'info', fmt: function(n){ return formatNumber(n) + '+'; }, suffix: '', metric: 'Breaches Disclosed in 2025', srcName: 'Aggregated sources' }
   ];
 
-  // Fetch data
-  fetch('data.json')
-    .then(function(r){ return r.json(); })
-    .then(function(data){
-      // Update date
-      document.getElementById('last-updated').textContent = data.last_updated;
+  function buildCounters(industryData, animate) {
+    var countersEl = document.getElementById('counters');
+    var existingCards = countersEl.querySelectorAll('.counter-card');
 
-      // Build counters
-      var countersEl = document.getElementById('counters');
-      counterDefs.forEach(function(def){
-        var val = data.counters[def.key];
+    if (existingCards.length === 0) {
+      // First build
+      counterDefs.forEach(function(def, i){
+        var val = industryData[def.key];
         var card = document.createElement('div');
         card.className = 'counter-card ' + def.cls;
+        card.setAttribute('data-counter-key', def.key);
         card.innerHTML = '<div class="counter-label">' + def.label + '</div>' +
           '<div class="counter-value" data-target="' + val + '">0</div>' +
           '<div class="counter-unit">' + def.unit + '</div>' +
-          '<div class="counter-source">' + def.source + '</div>';
+          '<div class="counter-source">' + def.source + '</div>' +
+          '<button class="cite-btn" data-metric="' + def.metric + '" data-source="' + def.srcName + '">&#128203; Cite</button>';
         countersEl.appendChild(card);
 
-        // Animate after a brief delay
         setTimeout(function(){
           var valEl = card.querySelector('.counter-value');
           animateValue(valEl, 0, val, 2000, def.fmt);
         }, 300);
       });
+    } else {
+      // Update existing
+      counterDefs.forEach(function(def){
+        var card = countersEl.querySelector('[data-counter-key="' + def.key + '"]');
+        if (!card) return;
+        var valEl = card.querySelector('.counter-value');
+        var oldVal = parseInt(valEl.getAttribute('data-target')) || 0;
+        var newVal = industryData[def.key];
+        valEl.setAttribute('data-target', newVal);
+        if (animate) {
+          animateValue(valEl, oldVal, newVal, 800, def.fmt);
+        } else {
+          valEl.textContent = def.fmt(newVal);
+        }
+      });
+    }
+  }
+
+  // Cite button handler (delegated)
+  document.getElementById('counters').addEventListener('click', function(e){
+    var btn = e.target.closest('.cite-btn');
+    if (!btn) return;
+    var metric = btn.getAttribute('data-metric');
+    var source = btn.getAttribute('data-source');
+    var card = btn.closest('.counter-card');
+    var valEl = card.querySelector('.counter-value');
+    var value = valEl.textContent;
+    var industry = currentIndustry === 'all' ? '' : ' (' + currentIndustry + ' sector)';
+    var citation = 'According to AttackClock (attackclock.com), ' + metric + industry + ' is ' + value + ' as of ' + (DATA ? DATA.last_updated : '2026') + '. Source: ' + source + '. Retrieved ' + todayStr() + '.';
+    copyToClipboard(citation);
+  });
+
+  // Industry pill handler
+  document.getElementById('industry-pills').addEventListener('click', function(e){
+    var pill = e.target.closest('.industry-pill');
+    if (!pill) return;
+    var industry = pill.getAttribute('data-industry');
+    if (industry === currentIndustry) return;
+    currentIndustry = industry;
+    // Update active state
+    document.querySelectorAll('.industry-pill').forEach(function(p){ p.classList.remove('active'); });
+    pill.classList.add('active');
+    // Update counters
+    if (DATA && DATA.industries && DATA.industries[industry]) {
+      buildCounters(DATA.industries[industry], true);
+      // Update hero timeline for dwell/tte/ransomware
+      updateHeroTimeline(DATA.industries[industry]);
+    }
+  });
+
+  function updateHeroTimeline(ind) {
+    var total = ind.tte + ind.dwell + 64 + ind.ransomware;
+    var segments = document.querySelectorAll('#hero-timeline .hero-bar-segment');
+    // seg-tte
+    var ttePct = (ind.tte / total * 100).toFixed(1);
+    var dwellPct = (ind.dwell / total * 100).toFixed(1);
+    var containPct = (64 / total * 100).toFixed(1);
+    var recPct = (ind.ransomware / total * 100).toFixed(1);
+
+    segments.forEach(function(seg){
+      if (seg.classList.contains('seg-tte')) {
+        seg.style.flexBasis = ttePct + '%';
+        seg.querySelector('.seg-days').textContent = ind.tte + 'd';
+      } else if (seg.classList.contains('seg-dwell')) {
+        seg.style.flexBasis = dwellPct + '%';
+        seg.querySelector('.seg-days').textContent = ind.dwell + 'd';
+      } else if (seg.classList.contains('seg-contain')) {
+        seg.style.flexBasis = containPct + '%';
+      } else if (seg.classList.contains('seg-recovery')) {
+        seg.style.flexBasis = recPct + '%';
+        seg.querySelector('.seg-days').textContent = ind.ransomware + 'd';
+      }
+    });
+  }
+
+  // Fetch data
+  fetch('data.json')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      DATA = data;
+      // Update date
+      document.getElementById('last-updated').textContent = data.last_updated;
+
+      // Build counters with "all" industry
+      buildCounters(data.industries.all, false);
 
       // Build timeline
       var timelineEl = document.getElementById('timeline');
-      timelineStages.forEach(function(stage, i){
+      timelineStages.forEach(function(stage){
         var row = document.createElement('div');
         row.className = 'timeline-stage';
         row.innerHTML = '<div class="stage-name">' + stage.name + '</div>' +
@@ -371,6 +611,18 @@ a:hover{color:var(--text-bright)}
         gridEl.appendChild(card);
       });
 
+      // Build weekly feed
+      var feedEl = document.getElementById('weekly-feed');
+      data.weekly_feed.forEach(function(item){
+        var card = document.createElement('div');
+        card.className = 'feed-card';
+        card.innerHTML = '<div class="feed-date">' + item.date + '</div>' +
+          '<div class="feed-headline">' + item.headline + '</div>' +
+          '<div class="feed-desc">' + item.description + '</div>' +
+          '<a class="feed-source" href="' + item.source_url + '" target="_blank" rel="noopener">' + item.source_name + ' &rarr;</a>';
+        feedEl.appendChild(card);
+      });
+
       // Build source links
       var srcEl = document.getElementById('source-links');
       data.sources.forEach(function(s){
@@ -395,6 +647,13 @@ a:hover{color:var(--text-bright)}
         srcEl.appendChild(a);
       });
 
+      // Animate hero timeline bars on load
+      setTimeout(function(){
+        document.querySelectorAll('#hero-timeline .hero-bar-segment[data-flex]').forEach(function(seg){
+          seg.style.flexBasis = seg.getAttribute('data-flex') + '%';
+        });
+      }, 300);
+
       // Animate bars on scroll
       initScrollAnimations();
     })
@@ -403,7 +662,6 @@ a:hover{color:var(--text-bright)}
     });
 
   function initScrollAnimations(){
-    // Reveal sections
     var reveals = document.querySelectorAll('.reveal');
     var bars = document.querySelectorAll('[data-width]');
     var animated = new Set();
@@ -428,11 +686,9 @@ a:hover{color:var(--text-bright)}
     }
 
     window.addEventListener('scroll', checkVisibility, {passive:true});
-    // Initial check
     checkVisibility();
   }
 })();
 </script>
 </body>
 </html>
-<!-- Auto-deploy test Wed Apr  1 10:59:56 EDT 2026 -->

@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-31",
+  "last_updated": "2026-04-03",
   "counters": {
     "tte_median_days": 14,
     "breach_dwell_mean_days": 258,
@@ -7,6 +7,15 @@
     "apt_dwell_median_days": 540,
     "records_exposed_2025": 1700000000,
     "breaches_disclosed_2025": 3200
+  },
+  "industries": {
+    "all": {"dwell": 258, "tte": 14, "ransomware": 24, "apt": 540, "records": 1700000000, "breaches": 3200},
+    "healthcare": {"dwell": 329, "tte": 11, "ransomware": 29, "apt": 480, "records": 245000000, "breaches": 580},
+    "finance": {"dwell": 233, "tte": 8, "ransomware": 18, "apt": 390, "records": 310000000, "breaches": 420},
+    "government": {"dwell": 310, "tte": 12, "ransomware": 26, "apt": 1825, "records": 180000000, "breaches": 290},
+    "manufacturing": {"dwell": 275, "tte": 18, "ransomware": 30, "apt": 600, "records": 95000000, "breaches": 310},
+    "technology": {"dwell": 197, "tte": 7, "ransomware": 15, "apt": 365, "records": 520000000, "breaches": 680},
+    "retail": {"dwell": 242, "tte": 16, "ransomware": 22, "apt": 410, "records": 380000000, "breaches": 490}
   },
   "attack_types": [
     {"name": "Ransomware (full encryption)", "median_days": 24, "source": "Coveware 2024"},
@@ -17,6 +26,36 @@
     {"name": "Router botnet", "median_days": 90, "source": "FBI/CISA Flax Typhoon"},
     {"name": "DDoS", "median_days": 0.04, "source": "Cloudflare 2024"},
     {"name": "Insider threat", "median_days": 197, "source": "CERT/SEI"}
+  ],
+  "weekly_feed": [
+    {
+      "date": "2026-03-20",
+      "headline": "FCC Conditional Approval Guidance Published",
+      "description": "Annex A details released covering corporate structure, supply chain transparency, and onshoring requirements for foreign router manufacturers seeking conditional approval.",
+      "source_url": "https://www.fcc.gov",
+      "source_name": "FCC"
+    },
+    {
+      "date": "2026-04-01",
+      "headline": "Zero Conditional Approvals Issued",
+      "description": "As of April 2026, the conditional approval pipeline remains empty. No foreign router manufacturer has successfully applied under the new FCC framework.",
+      "source_url": "https://attackclock.com/conditional-approval.html",
+      "source_name": "AttackClock Analysis"
+    },
+    {
+      "date": "2026-03-15",
+      "headline": "Volt Typhoon: 5+ Year Dwell Time Confirmed",
+      "description": "CISA advisory AA24-038A confirms Volt Typhoon maintained persistent access to US critical infrastructure for over five years before discovery.",
+      "source_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a",
+      "source_name": "CISA"
+    },
+    {
+      "date": "2026-03-28",
+      "headline": "Cloudflare Source Code Leak Highlights Supply Chain Risk",
+      "description": "An npm packaging error exposed internal Cloudflare source code, demonstrating how software supply chain misconfigurations can lead to unintended disclosure.",
+      "source_url": "https://blog.cloudflare.com",
+      "source_name": "Cloudflare"
+    }
   ],
   "sources": [
     {"name": "IBM Cost of Data Breach 2024", "url": "https://www.ibm.com/reports/data-breach"},
