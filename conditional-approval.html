@@ -99,6 +99,33 @@ a:hover{color:var(--text-bright)}
 .footer-links a{color:#64748b;font-size:.8rem}
 .footer-links a:hover{color:var(--cyan)}
 
+/* Comparison columns */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem}
+.compare-col{background:var(--bg2);border:1px solid #1e293b;border-radius:10px;padding:1.5rem;position:relative;overflow:hidden}
+.compare-col::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
+.compare-col.gov::before{background:var(--amber)}
+.compare-col.vcri::before{background:var(--cyan)}
+.compare-col h3{font-size:1rem;font-weight:700;margin-bottom:1rem}
+.compare-col.gov h3{color:var(--amber)}
+.compare-col.vcri h3{color:var(--cyan)}
+.compare-col ul{list-style:none;padding:0}
+.compare-col ul li{font-size:.85rem;color:var(--text-dim);padding:.35rem 0;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:.5rem}
+.compare-col ul li:last-child{border-bottom:none}
+.compare-col ul li::before{content:'\2713';font-weight:700;font-size:.75rem;flex-shrink:0;width:1.2rem;height:1.2rem;display:inline-flex;align-items:center;justify-content:center;border-radius:50%}
+.compare-col.gov ul li::before{color:var(--amber);background:#f59e0b15}
+.compare-col.vcri ul li::before{color:var(--cyan);background:#06b6d415}
+@media(max-width:768px){.compare-grid{grid-template-columns:1fr}}
+
+/* Guidance detail cards */
+.guidance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.guidance-card{background:var(--bg2);border:1px solid #1e293b;border-radius:10px;padding:1.25rem;position:relative;overflow:hidden}
+.guidance-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--amber);border-radius:10px 10px 0 0}
+.guidance-card h3{font-size:.95rem;font-weight:600;color:var(--amber);margin-bottom:.5rem}
+.guidance-card ul{list-style:none;padding:0}
+.guidance-card ul li{font-size:.82rem;color:var(--text-dim);padding:.3rem 0;padding-left:1rem;position:relative}
+.guidance-card ul li::before{content:'\2022';position:absolute;left:0;color:var(--amber)}
+.guidance-note{font-size:.8rem;color:var(--text-dim);margin-top:1.5rem;padding:1rem;background:var(--bg2);border:1px solid #1e293b;border-radius:8px;border-left:3px solid var(--amber)}
+
 /* Animations */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
@@ -146,8 +173,8 @@ a:hover{color:var(--text-bright)}
 
 <!-- Hero -->
 <div class="hero reveal">
-  <h1>FCC Banned Foreign Routers. <em>VCRI Has the Assessment Framework.</em></h1>
-  <p>On March 23, 2026, the FCC added all foreign-made consumer routers to its Covered List. Manufacturers need Conditional Approval from DoC/DHS. VCRI provides the standardized, independent assessment methodology.</p>
+  <h1>FCC Banned Foreign Routers. <em>VCRI Completes the Assessment.</em></h1>
+  <p>The FCC published Conditional Approval guidance on March 20, 2026. It addresses who makes the router and where. VCRI addresses whether it's secure.</p>
   <div class="hero-buttons">
     <a href="mailto:cairn.works@protonmail.com?subject=VCRI%20White%20Paper%20Request%20-%20Conditional%20Approval" class="btn btn-primary">Read the White Paper</a>
     <a href="mailto:cairn.works@protonmail.com?subject=VCRI%20Conditional%20Approval%20Inquiry" class="btn btn-secondary">Contact VCRI</a>
@@ -159,11 +186,11 @@ a:hover{color:var(--text-bright)}
 <!-- The Problem -->
 <section class="section reveal">
   <h2 class="section-title">The Problem</h2>
-  <p class="section-subtitle">The Conditional Approval process exists, but the assessment criteria do not.</p>
+  <p class="section-subtitle">Guidance has been published -- but it focuses on the manufacturer, not the product.</p>
   <div class="problem-grid">
     <div class="problem-card">
-      <h3>No Published Criteria</h3>
-      <p>The FCC provides an email address for submissions and a reference to "guidance attached to the determination." No standardized assessment methodology. No independent verification requirement. Manufacturers do not know what "good enough" looks like.</p>
+      <h3>Guidance Published, Gap Remains</h3>
+      <p>On March 20, 2026, DoC/DHS published Annex A guidance for Conditional Approval. It covers three disclosure categories: corporate structure, supply chain geography, and onshoring commitments. Technical security assessment of the product itself is not currently part of the process.</p>
     </div>
     <div class="problem-card">
       <h3>125 Million Foreign Routers</h3>
@@ -174,9 +201,84 @@ a:hover{color:var(--text-bright)}
       <p>Volt Typhoon maintained access to US critical infrastructure for 5+ years via compromised SOHO routers. Flax Typhoon controlled 260,000 devices. Salt Typhoon penetrated telecom providers. These are not hypotheticals.</p>
     </div>
     <div class="problem-card">
-      <h3>Paralysis or Capture</h3>
-      <p>Without clear criteria, DoC/DHS cannot efficiently process applications. The result is either paralysis (nobody gets approved) or capture (approvals go to whoever has the best lobbyists). Neither serves national security.</p>
+      <h3>Manufacturer Trust, Not Product Trust</h3>
+      <p>The current guidance establishes trust in the manufacturer -- who they are, where they build, whether they will onshore. It does not establish trust in the product -- whether the firmware is secure, the credentials are hardened, or the patches ship on time.</p>
     </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Completing the Picture -->
+<section class="section reveal">
+  <h2 class="section-title">Completing the Picture</h2>
+  <p class="section-subtitle">The Conditional Approval process establishes trust in the manufacturer. VCRI establishes trust in the product. Together, they complete the picture.</p>
+  <div style="max-width:720px;margin-bottom:1.5rem">
+    <p style="font-size:.95rem;color:var(--text-dim);margin-bottom:.75rem">The Conditional Approval process addresses three critical questions: <strong style="color:var(--text-bright)">Who makes this router? Where is it made? Will they manufacture in the US?</strong></p>
+    <p style="font-size:.95rem;color:var(--text-dim);margin-bottom:.75rem">These are essential -- but they address the manufacturer, not the product.</p>
+    <p style="font-size:.95rem;color:var(--text-dim)">A fourth question remains: <strong style="color:var(--red)">Is the router firmware actually secure?</strong> VCRI answers that question.</p>
+  </div>
+  <div class="compare-grid">
+    <div class="compare-col gov">
+      <h3>Conditional Approval Assesses</h3>
+      <ul>
+        <li>Ownership and corporate structure</li>
+        <li>Supply chain geography</li>
+        <li>Onshoring commitment</li>
+        <li>FOCI screening</li>
+      </ul>
+    </div>
+    <div class="compare-col vcri">
+      <h3>VCRI Assesses</h3>
+      <ul>
+        <li>Firmware security</li>
+        <li>Vulnerability management</li>
+        <li>Credential hygiene</li>
+        <li>Patch cycle speed</li>
+        <li>Continuous monitoring</li>
+        <li>Dollar-at-Risk</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Guidance Details -->
+<section class="section reveal">
+  <h2 class="section-title">Guidance Details</h2>
+  <p class="section-subtitle">Annex A disclosure requirements published March 20, 2026 -- three categories of manufacturer information.</p>
+  <div class="guidance-grid">
+    <div class="guidance-card">
+      <h3>Corporate Structure</h3>
+      <ul>
+        <li>Ownership and control relationships</li>
+        <li>Foreign ownership, control, or influence (FOCI)</li>
+        <li>Board member nationalities</li>
+        <li>Government affiliations or obligations</li>
+      </ul>
+    </div>
+    <div class="guidance-card">
+      <h3>Supply Chain</h3>
+      <ul>
+        <li>Bill of materials and component origins</li>
+        <li>Geographic concentration of suppliers</li>
+        <li>Single points of failure (SPOFs)</li>
+        <li>Subcontractor and OEM relationships</li>
+      </ul>
+    </div>
+    <div class="guidance-card">
+      <h3>Onshoring Commitment</h3>
+      <ul>
+        <li>Time-bound manufacturing transition plan</li>
+        <li>Quarterly progress updates</li>
+        <li>Capital expenditure commitments</li>
+        <li>US facility and workforce plans</li>
+      </ul>
+    </div>
+  </div>
+  <div class="guidance-note">
+    <strong style="color:var(--amber)">Key terms:</strong> Approvals are granted for 18-month periods. Zero Conditional Approvals have been issued to date. An officer of the company must certify all disclosures under penalty of perjury.
   </div>
 </section>
 
