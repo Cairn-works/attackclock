@@ -206,6 +206,54 @@ a:hover{color:var(--text-bright)}
 /* Intersection observer reveal */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
 .reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== THE TWO CLOCKS ===== */
+.two-clocks-section{background:linear-gradient(180deg,#0d1424 0%,var(--bg) 100%);border-top:1px solid #1e293b;border-bottom:1px solid #1e293b;padding:3rem 1rem}
+.tc-inner{max-width:1100px;margin:0 auto}
+.tc-title{font-size:2rem;font-weight:800;color:var(--text-bright);text-align:center;letter-spacing:-.01em}
+.tc-title span{color:var(--red)}
+.tc-sub{text-align:center;color:var(--text-dim);font-size:1rem;margin:.4rem auto 2rem;max-width:620px}
+.tc-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;max-width:900px;margin:0 auto}
+.tc-card{background:var(--bg2);border:1px solid #1e293b;border-radius:14px;padding:1.5rem;text-align:center;position:relative;overflow:hidden}
+.tc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.tc-attacker::before{background:var(--red)}
+.tc-defender::before{background:var(--cyan)}
+.tc-card-label{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);margin-bottom:.75rem}
+.tc-attacker .tc-card-label{color:var(--red)}
+.tc-defender .tc-card-label{color:var(--cyan)}
+.tc-bignum{font-size:3.4rem;font-weight:900;line-height:1;font-variant-numeric:tabular-nums;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.tc-attacker .tc-bignum{color:var(--red)}
+.tc-defender .tc-bignum{color:var(--cyan)}
+.tc-unit{font-size:.8rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.tc-detail{font-size:.82rem;color:var(--text-dim);margin-top:.85rem;line-height:1.5}
+.tc-detail strong{color:var(--text-bright)}
+.tc-attacker .tc-detail strong{color:var(--red)}
+.tc-vs{font-size:1.3rem;font-weight:900;color:#475569;letter-spacing:.05em}
+/* Race bars */
+.tc-race{max-width:900px;margin:2.25rem auto 0}
+.tc-race-row{display:grid;grid-template-columns:80px 1fr 90px;align-items:center;gap:.75rem;margin-bottom:.6rem}
+.tc-race-name{font-size:.85rem;font-weight:700;color:var(--text);text-align:right}
+.tc-race-track{height:26px;background:#1e293b;border-radius:6px;overflow:hidden}
+.tc-race-fill{height:100%;border-radius:6px;width:0;transition:width 1.6s ease-out}
+.tc-fill-attacker{background:linear-gradient(90deg,#ef4444,#dc2626);min-width:6px}
+.tc-fill-defender{background:linear-gradient(90deg,#06b6d4,#0891b2)}
+.tc-race-val{font-size:.8rem;font-weight:700;color:var(--text-dim);white-space:nowrap}
+.tc-gap{text-align:center;font-size:1rem;color:var(--text-dim);margin:1.75rem auto 0;max-width:680px;padding:1rem;background:linear-gradient(135deg,#1a0505,#150a05);border:1px solid #7f1d1d;border-radius:10px}
+.tc-gap strong{color:var(--red);font-weight:900;font-size:1.15rem}
+/* Trajectory */
+.tc-traj-title{text-align:center;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin:2rem 0 1rem}
+.tc-traj{display:flex;justify-content:center;align-items:flex-end;gap:.5rem;flex-wrap:wrap}
+.tc-traj-item{display:flex;flex-direction:column;align-items:center;gap:.3rem;min-width:74px}
+.tc-traj-year{font-size:.75rem;color:var(--text-dim);font-weight:600}
+.tc-traj-val{font-size:1.25rem;font-weight:800;color:var(--amber)}
+.tc-traj-item.neg .tc-traj-val{color:var(--red)}
+.tc-traj-arrow{color:#475569;font-size:1.2rem;align-self:center;padding-bottom:1.1rem}
+@media(max-width:640px){
+  .tc-grid{grid-template-columns:1fr;gap:.75rem}
+  .tc-vs{padding:.25rem 0}
+  .tc-bignum{font-size:2.6rem}
+  .tc-traj-arrow{display:none}
+}
 </style>
 </head>
 <body>
@@ -250,7 +298,7 @@ a:hover{color:var(--text-bright)}
     <div class="hero-bar-container" id="hero-timeline">
       <div class="hero-bar-segment seg-tte" data-flex="3.7" style="flex-basis:0%">
         <span class="seg-label">TTE</span>
-        <span class="seg-days">14d</span>
+        <span class="seg-days">5d</span>
       </div>
       <div class="hero-bar-segment seg-exploit"></div>
       <div class="hero-bar-segment seg-dwell" data-flex="67.8" style="flex-basis:0%">
@@ -275,6 +323,42 @@ a:hover{color:var(--text-bright)}
     </div>
   </div>
 </header>
+
+<!-- ===== THE TWO CLOCKS ===== -->
+<section class="two-clocks-section reveal">
+  <div class="tc-inner">
+    <h2 class="tc-title">The Two <span>Clocks</span></h2>
+    <p class="tc-sub">Attackers race to exploit. Defenders race to patch. One clock is winning &mdash; and the gap between them is where the damage happens.</p>
+    <div class="tc-grid">
+      <div class="tc-card tc-attacker">
+        <div class="tc-card-label">&#9876;&#65039; The Attacker's Clock</div>
+        <div class="tc-bignum"><span id="tc-exploit">5</span><span class="tc-unit">days median to exploit</span></div>
+        <div class="tc-detail">The <em>mean</em> has gone <strong>negative: &minus;7 days</strong> &mdash; on average, exploited <em>before</em> the patch exists.</div>
+      </div>
+      <div class="tc-vs">VS</div>
+      <div class="tc-card tc-defender">
+        <div class="tc-card-label">&#128737;&#65039; The Defender's Clock</div>
+        <div class="tc-bignum"><span id="tc-patch">137</span><span class="tc-unit">days to patch a critical</span></div>
+        <div class="tc-detail">CISA's directive asks for <strong>15 days</strong>. The real-world average is <strong>~137</strong> (Bitsight).</div>
+      </div>
+    </div>
+    <div class="tc-race">
+      <div class="tc-race-row">
+        <div class="tc-race-name">Exploit</div>
+        <div class="tc-race-track"><div class="tc-race-fill tc-fill-attacker" data-w="3.6"></div></div>
+        <div class="tc-race-val">~5 days</div>
+      </div>
+      <div class="tc-race-row">
+        <div class="tc-race-name">Patch</div>
+        <div class="tc-race-track"><div class="tc-race-fill tc-fill-defender" data-w="100"></div></div>
+        <div class="tc-race-val">~137 days</div>
+      </div>
+    </div>
+    <div class="tc-gap">The Gap: <strong id="tc-gap">132 days</strong> &mdash; the open window where ransomware and nation-state actors operate at will. <em>28.3% of exploited CVEs hit within 24 hours of disclosure.</em></div>
+    <div class="tc-traj-title">Time-to-exploit, collapsing &mdash; median days from disclosure</div>
+    <div class="tc-traj" id="tc-traj"></div>
+  </div>
+</section>
 
 <!-- Industry Selector -->
 <div class="industry-pills" id="industry-pills">
@@ -385,7 +469,7 @@ a:hover{color:var(--text-bright)}
 </section>
 
 <footer class="footer">
-  <div>&copy; 2026 AttackClock | A <a href="https://valuechainrisk.org">VCRI</a> Research Project | Data updated <span id="last-updated">2026-04-03</span></div>
+  <div>&copy; 2026 AttackClock | A <a href="https://valuechainrisk.org">VCRI</a> Research Project | Data updated <span id="last-updated">2026-06-28</span></div>
   <div class="footer-links">
     <a href="#about">About</a>
     <a href="#">Methodology</a>
@@ -546,6 +630,40 @@ a:hover{color:var(--text-bright)}
     }
   });
 
+  function buildTwoClocks(tc) {
+    if (!tc) return;
+    var ex = document.getElementById('tc-exploit');
+    var pa = document.getElementById('tc-patch');
+    var gap = document.getElementById('tc-gap');
+    if (ex) ex.textContent = tc.exploit_clock_median_days;
+    if (pa) pa.textContent = tc.patch_clock_days;
+    if (gap) gap.textContent = tc.gap_days + ' days';
+    // Trajectory
+    var trajEl = document.getElementById('tc-traj');
+    if (trajEl && tc.tte_trajectory) {
+      tc.tte_trajectory.forEach(function(pt, i){
+        if (i > 0) {
+          var arrow = document.createElement('div');
+          arrow.className = 'tc-traj-arrow';
+          arrow.innerHTML = '&rarr;';
+          trajEl.appendChild(arrow);
+        }
+        var item = document.createElement('div');
+        item.className = 'tc-traj-item' + (pt.days < 0 ? ' neg' : '');
+        var valTxt = pt.days < 0 ? '<0' : pt.days + 'd';
+        item.innerHTML = '<div class="tc-traj-val">' + valTxt + '</div>' +
+          '<div class="tc-traj-year">' + pt.year + '</div>';
+        trajEl.appendChild(item);
+      });
+    }
+    // Animate race fills
+    setTimeout(function(){
+      document.querySelectorAll('.tc-race-fill[data-w]').forEach(function(f){
+        f.style.width = f.getAttribute('data-w') + '%';
+      });
+    }, 400);
+  }
+
   function updateHeroTimeline(ind) {
     var total = ind.tte + ind.dwell + 64 + ind.ransomware;
     var segments = document.querySelectorAll('#hero-timeline .hero-bar-segment');
@@ -578,6 +696,9 @@ a:hover{color:var(--text-bright)}
       DATA = data;
       // Update date
       document.getElementById('last-updated').textContent = data.last_updated;
+
+      // Build the Two Clocks
+      buildTwoClocks(data.two_clocks);
 
       // Build counters with "all" industry
       buildCounters(data.industries.all, false);

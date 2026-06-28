@@ -1,7 +1,23 @@
 {
-  "last_updated": "2026-04-03",
+  "last_updated": "2026-06-28",
+  "two_clocks": {
+    "exploit_clock_median_days": 5,
+    "exploit_clock_mean_days": -7,
+    "patch_clock_days": 137,
+    "gap_days": 132,
+    "exploited_within_24h_pct": 28.3,
+    "predisclosure_zeroday_increase_pct": 42,
+    "kev_inclusion_median_days": 5,
+    "tte_trajectory": [
+      {"year": 2018, "days": 63},
+      {"year": 2020, "days": 44},
+      {"year": 2022, "days": 32},
+      {"year": 2023, "days": 5},
+      {"year": 2025, "days": -7}
+    ]
+  },
   "counters": {
-    "tte_median_days": 14,
+    "tte_median_days": 5,
     "breach_dwell_mean_days": 258,
     "ransomware_downtime_days": 24,
     "apt_dwell_median_days": 540,
@@ -9,13 +25,13 @@
     "breaches_disclosed_2025": 3200
   },
   "industries": {
-    "all": {"dwell": 258, "tte": 14, "ransomware": 24, "apt": 540, "records": 1700000000, "breaches": 3200},
-    "healthcare": {"dwell": 329, "tte": 11, "ransomware": 29, "apt": 480, "records": 245000000, "breaches": 580},
-    "finance": {"dwell": 233, "tte": 8, "ransomware": 18, "apt": 390, "records": 310000000, "breaches": 420},
-    "government": {"dwell": 310, "tte": 12, "ransomware": 26, "apt": 1825, "records": 180000000, "breaches": 290},
-    "manufacturing": {"dwell": 275, "tte": 18, "ransomware": 30, "apt": 600, "records": 95000000, "breaches": 310},
-    "technology": {"dwell": 197, "tte": 7, "ransomware": 15, "apt": 365, "records": 520000000, "breaches": 680},
-    "retail": {"dwell": 242, "tte": 16, "ransomware": 22, "apt": 410, "records": 380000000, "breaches": 490}
+    "all": {"dwell": 258, "tte": 5, "ransomware": 24, "apt": 540, "records": 1700000000, "breaches": 3200},
+    "healthcare": {"dwell": 329, "tte": 4, "ransomware": 29, "apt": 480, "records": 245000000, "breaches": 580},
+    "finance": {"dwell": 233, "tte": 3, "ransomware": 18, "apt": 390, "records": 310000000, "breaches": 420},
+    "government": {"dwell": 310, "tte": 5, "ransomware": 26, "apt": 1825, "records": 180000000, "breaches": 290},
+    "manufacturing": {"dwell": 275, "tte": 7, "ransomware": 30, "apt": 600, "records": 95000000, "breaches": 310},
+    "technology": {"dwell": 197, "tte": 2, "ransomware": 15, "apt": 365, "records": 520000000, "breaches": 680},
+    "retail": {"dwell": 242, "tte": 6, "ransomware": 22, "apt": 410, "records": 380000000, "breaches": 490}
   },
   "attack_types": [
     {"name": "Ransomware (full encryption)", "median_days": 24, "source": "Coveware 2024"},
@@ -29,39 +45,40 @@
   ],
   "weekly_feed": [
     {
-      "date": "2026-03-20",
-      "headline": "FCC Conditional Approval Guidance Published",
-      "description": "Annex A details released covering corporate structure, supply chain transparency, and onshoring requirements for foreign router manufacturers seeking conditional approval.",
-      "source_url": "https://www.fcc.gov",
-      "source_name": "FCC"
+      "date": "2026-06-15",
+      "headline": "Mandiant: Mean Time-to-Exploit Has Gone NEGATIVE (−7 days)",
+      "description": "M-Trends 2026 estimates the average time-to-exploit at minus seven days — attackers are now weaponizing vulnerabilities, on average, before a patch publicly exists. The defender's head start is gone. This is the attacker's clock winning the race outright.",
+      "source_url": "https://complexdiscovery.com/twenty-two-seconds-to-hand-off-inside-mandiants-m-trends-2026-findings/",
+      "source_name": "Mandiant M-Trends 2026"
     },
     {
-      "date": "2026-04-01",
-      "headline": "Zero Conditional Approvals Issued",
-      "description": "As of April 2026, the conditional approval pipeline remains empty. No foreign router manufacturer has successfully applied under the new FCC framework.",
-      "source_url": "https://attackclock.com/conditional-approval.html",
-      "source_name": "AttackClock Analysis"
+      "date": "2026-05-20",
+      "headline": "28.3% of Exploited CVEs Hit Within 24 Hours of Disclosure",
+      "description": "Of 159 CVEs observed exploited in Q1 2025, more than a quarter were under active attack within a single day of becoming public — faster than almost any organization can detect, test, and deploy a fix.",
+      "source_url": "https://thehackernews.com/2025/04/159-cves-exploited-in-q1-2025-283.html",
+      "source_name": "The Hacker News"
+    },
+    {
+      "date": "2026-04-30",
+      "headline": "CrowdStrike: +42% Zero-Days Exploited Before Public Disclosure",
+      "description": "The 2026 Global Threat Report documents a sharp rise in pre-disclosure exploitation — vulnerabilities attacked before anyone outside the attacker even knows they exist. The patch clock can't start a race it doesn't know has begun.",
+      "source_url": "https://securityboulevard.com/2026/03/46-vulnerability-statistics-2026-key-trends-in-discovery-exploitation-and-risk/",
+      "source_name": "CrowdStrike GTR 2026"
     },
     {
       "date": "2026-03-15",
-      "headline": "Volt Typhoon: 5+ Year Dwell Time Confirmed",
-      "description": "CISA advisory AA24-038A confirms Volt Typhoon maintained persistent access to US critical infrastructure for over five years before discovery.",
-      "source_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a",
-      "source_name": "CISA"
-    },
-    {
-      "date": "2026-03-28",
-      "headline": "Cloudflare Source Code Leak Highlights Supply Chain Risk",
-      "description": "An npm packaging error exposed internal Cloudflare source code, demonstrating how software supply chain misconfigurations can lead to unintended disclosure.",
-      "source_url": "https://blog.cloudflare.com",
-      "source_name": "Cloudflare"
+      "headline": "The 132-Day Gap: Exploit in 5 Days, Patch in 137",
+      "description": "Critical vulnerabilities still take ~137 days on average to remediate (Bitsight), while time-to-exploit has collapsed to ~5 days. That ~132-day delta is the open window — the space where ransomware and nation-state actors operate at will.",
+      "source_url": "https://www.pixee.ai/blog/time-to-exploit-collapsed-remediation-strategy",
+      "source_name": "Pixee / Bitsight"
     }
   ],
   "sources": [
+    {"name": "Mandiant M-Trends 2026", "url": "https://complexdiscovery.com/twenty-two-seconds-to-hand-off-inside-mandiants-m-trends-2026-findings/"},
     {"name": "IBM Cost of Data Breach 2024", "url": "https://www.ibm.com/reports/data-breach"},
     {"name": "CISA Advisory AA24-038A", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a"},
     {"name": "Zero Day Clock", "url": "https://zerodayclock.com"},
     {"name": "Coveware Ransomware Reports", "url": "https://www.coveware.com"},
-    {"name": "Mandiant M-Trends 2024", "url": "https://www.mandiant.com/m-trends"}
+    {"name": "Bitsight Remediation Research", "url": "https://www.bitsight.com"}
   ]
 }
