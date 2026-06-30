@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-28",
+  "last_updated": "2026-06-30",
   "two_clocks": {
     "exploit_clock_median_days": 5,
     "exploit_clock_mean_days": -7,
@@ -44,6 +44,13 @@
     {"name": "Insider threat", "median_days": 197, "source": "CERT/SEI"}
   ],
   "weekly_feed": [
+    {
+      "date": "2026-06-30",
+      "headline": "The Exploit Clock Is Automating: AI Finds 0-Days One-Shot",
+      "description": "Intruder demonstrated a \"0-day vending machine\" — commodity AI (Joern static analysis + Claude Sonnet/Opus in Docker) that autonomously found and wrote a working exploit for a real zero-day (CVE-2026-3985) in a 300k-user WordPress plugin, one-shot, no human editing, scanning the top-200 plugins. The attacker's clock now has an automation flywheel the defender's human-paced patch clock can't match.",
+      "source_url": "https://www.intruder.io/research/a-0-day-vending-machine-no-mythos-necessary",
+      "source_name": "Intruder Research"
+    },
     {
       "date": "2026-06-15",
       "headline": "Mandiant: Mean Time-to-Exploit Has Gone NEGATIVE (−7 days)",
