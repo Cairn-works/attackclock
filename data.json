@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-30",
+  "last_updated": "2026-11-11",
   "two_clocks": {
     "exploit_clock_median_days": 5,
     "exploit_clock_mean_days": -7,
@@ -9,11 +9,26 @@
     "predisclosure_zeroday_increase_pct": 42,
     "kev_inclusion_median_days": 5,
     "tte_trajectory": [
-      {"year": 2018, "days": 63},
-      {"year": 2020, "days": 44},
-      {"year": 2022, "days": 32},
-      {"year": 2023, "days": 5},
-      {"year": 2025, "days": -7}
+      {
+        "year": 2018,
+        "days": 63
+      },
+      {
+        "year": 2020,
+        "days": 44
+      },
+      {
+        "year": 2022,
+        "days": 32
+      },
+      {
+        "year": 2023,
+        "days": 5
+      },
+      {
+        "year": 2025,
+        "days": -7
+      }
     ]
   },
   "counters": {
@@ -25,25 +40,120 @@
     "breaches_disclosed_2025": 3200
   },
   "industries": {
-    "all": {"dwell": 258, "tte": 5, "ransomware": 24, "apt": 540, "records": 1700000000, "breaches": 3200},
-    "healthcare": {"dwell": 329, "tte": 4, "ransomware": 29, "apt": 480, "records": 245000000, "breaches": 580},
-    "finance": {"dwell": 233, "tte": 3, "ransomware": 18, "apt": 390, "records": 310000000, "breaches": 420},
-    "government": {"dwell": 310, "tte": 5, "ransomware": 26, "apt": 1825, "records": 180000000, "breaches": 290},
-    "manufacturing": {"dwell": 275, "tte": 7, "ransomware": 30, "apt": 600, "records": 95000000, "breaches": 310},
-    "technology": {"dwell": 197, "tte": 2, "ransomware": 15, "apt": 365, "records": 520000000, "breaches": 680},
-    "retail": {"dwell": 242, "tte": 6, "ransomware": 22, "apt": 410, "records": 380000000, "breaches": 490}
+    "all": {
+      "dwell": 258,
+      "tte": 5,
+      "ransomware": 24,
+      "apt": 540,
+      "records": 1700000000,
+      "breaches": 3200
+    },
+    "healthcare": {
+      "dwell": 329,
+      "tte": 4,
+      "ransomware": 29,
+      "apt": 480,
+      "records": 245000000,
+      "breaches": 580
+    },
+    "finance": {
+      "dwell": 233,
+      "tte": 3,
+      "ransomware": 18,
+      "apt": 390,
+      "records": 310000000,
+      "breaches": 420
+    },
+    "government": {
+      "dwell": 310,
+      "tte": 5,
+      "ransomware": 26,
+      "apt": 1825,
+      "records": 180000000,
+      "breaches": 290
+    },
+    "manufacturing": {
+      "dwell": 275,
+      "tte": 7,
+      "ransomware": 30,
+      "apt": 600,
+      "records": 95000000,
+      "breaches": 310
+    },
+    "technology": {
+      "dwell": 197,
+      "tte": 2,
+      "ransomware": 15,
+      "apt": 365,
+      "records": 520000000,
+      "breaches": 680
+    },
+    "retail": {
+      "dwell": 242,
+      "tte": 6,
+      "ransomware": 22,
+      "apt": 410,
+      "records": 380000000,
+      "breaches": 490
+    }
   },
   "attack_types": [
-    {"name": "Ransomware (full encryption)", "median_days": 24, "source": "Coveware 2024"},
-    {"name": "Credential compromise", "mean_days": 371, "source": "IBM CODB 2024"},
-    {"name": "Supply chain — firmware", "median_days": 180, "source": "SolarWinds/3CX analysis"},
-    {"name": "APT / Nation-state", "median_days": 540, "source": "CISA AA24-038A"},
-    {"name": "Firmware backdoor", "median_days": 730, "source": "VPNFilter, Flax Typhoon"},
-    {"name": "Router botnet", "median_days": 90, "source": "FBI/CISA Flax Typhoon"},
-    {"name": "DDoS", "median_days": 0.04, "source": "Cloudflare 2024"},
-    {"name": "Insider threat", "median_days": 197, "source": "CERT/SEI"}
+    {
+      "name": "Ransomware (full encryption)",
+      "median_days": 24,
+      "source": "Coveware 2024"
+    },
+    {
+      "name": "Credential compromise",
+      "mean_days": 371,
+      "source": "IBM CODB 2024"
+    },
+    {
+      "name": "Supply chain — firmware",
+      "median_days": 180,
+      "source": "SolarWinds/3CX analysis"
+    },
+    {
+      "name": "APT / Nation-state",
+      "median_days": 540,
+      "source": "CISA AA24-038A"
+    },
+    {
+      "name": "Firmware backdoor",
+      "median_days": 730,
+      "source": "VPNFilter, Flax Typhoon"
+    },
+    {
+      "name": "Router botnet",
+      "median_days": 90,
+      "source": "FBI/CISA Flax Typhoon"
+    },
+    {
+      "name": "DDoS",
+      "median_days": 0.04,
+      "source": "Cloudflare 2024"
+    },
+    {
+      "name": "Insider threat",
+      "median_days": 197,
+      "source": "CERT/SEI"
+    }
   ],
   "weekly_feed": [
+    {
+      "date": "2026-11-09",
+      "headline": "Open-Source AI Pen-Test Framework Becomes an Attacker Tool in Three Months",
+      "description": "ARTEX, an open-source, LLM-driven penetration testing framework published on GitHub on 26 July 2026, has since been reported in real intrusions by several security vendors. CrowdStrike describes a campaign against South Korean financial organizations that ended in data theft. The author has made the project closed-source, but by then it had more than 12,000 forks, and Google's researchers report archived and rebranded copies still circulating.",
+      "source_url": "https://www.helpnetsecurity.com/2026/11/09/artex-goes-from-pentesting-tool-to-attacker-staple-in-three-months/",
+      "source_name": "Help Net Security"
+    },
+    {
+      "date": "2026-11-05",
+      "headline": "Fastest Observed Exploit: 35 Minutes After Public Proof-of-Concept",
+      "description": "CrowdStrike reports that among vulnerabilities it saw exploited between January and July 2026 that had public proof-of-concept code, 91% were exploited within 48 hours of the code's release, and the median was less than one day. The fastest single case was 35 minutes. The figures cover exploited vulnerabilities with public code, not all disclosed vulnerabilities, and no sample size is given. CrowdStrike says AI is accelerating how vulnerabilities are found and weaponized, while noting that attackers' direct use of AI is hard to identify.",
+      "source_url": "https://www.crowdstrike.com/en-us/blog/adversaries-turn-vulnerability-ecosystem-against-defenders/",
+      "source_name": "CrowdStrike Counter Adversary Operations"
+    },
     {
       "date": "2026-06-30",
       "headline": "The Exploit Clock Is Automating: AI Finds 0-Days One-Shot",
@@ -81,11 +191,29 @@
     }
   ],
   "sources": [
-    {"name": "Mandiant M-Trends 2026", "url": "https://complexdiscovery.com/twenty-two-seconds-to-hand-off-inside-mandiants-m-trends-2026-findings/"},
-    {"name": "IBM Cost of Data Breach 2024", "url": "https://www.ibm.com/reports/data-breach"},
-    {"name": "CISA Advisory AA24-038A", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a"},
-    {"name": "Zero Day Clock", "url": "https://zerodayclock.com"},
-    {"name": "Coveware Ransomware Reports", "url": "https://www.coveware.com"},
-    {"name": "Bitsight Remediation Research", "url": "https://www.bitsight.com"}
+    {
+      "name": "Mandiant M-Trends 2026",
+      "url": "https://complexdiscovery.com/twenty-two-seconds-to-hand-off-inside-mandiants-m-trends-2026-findings/"
+    },
+    {
+      "name": "IBM Cost of Data Breach 2024",
+      "url": "https://www.ibm.com/reports/data-breach"
+    },
+    {
+      "name": "CISA Advisory AA24-038A",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a"
+    },
+    {
+      "name": "Zero Day Clock",
+      "url": "https://zerodayclock.com"
+    },
+    {
+      "name": "Coveware Ransomware Reports",
+      "url": "https://www.coveware.com"
+    },
+    {
+      "name": "Bitsight Remediation Research",
+      "url": "https://www.bitsight.com"
+    }
   ]
 }
